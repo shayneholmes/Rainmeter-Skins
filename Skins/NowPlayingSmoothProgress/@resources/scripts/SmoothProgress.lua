@@ -26,9 +26,9 @@ function Initialize()
   DebugID = os.clock()
   DebugClockScalar = 1.0 -- for testing robustness of PID controller
   -- variables for PID controller
-  Kp = 0.05
-  Ki = 0.05
-  Kd = 0.15
+  Kp = 0.00
+  Ki = 0.00
+  Kd = 0.00
   -- internal state of PID controller
   ErrorPLast = 0
   ErrorP = 0
