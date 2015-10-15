@@ -3,8 +3,9 @@
 ---- NumberOfSegments=
 ---- ColorField=
 ---- ShadeSegmentsGradually=
+---- SegmentGroup=
 ---- SegmentGroupN=
----- where N is an ordered number from 0
+---- where N is an ordered number from 2
 
 function Initialize()
   mDuration = SKIN:GetMeasure('mDuration')
@@ -24,15 +25,18 @@ function Initialize()
   InactiveColor = InactiveColorValue .. "," .. InactiveColorValue .. "," .. InactiveColorValue
 
   NumberOfSegments = SKIN:ParseFormula(SKIN:GetVariable('NumberOfSegments'))
-  ObjectsToUpdate = {}
-  j = 0
-  while true do
-    local opt = SELF:GetOption("SegmentGroup" .. j)
-    if opt == "" then break end
-    table.insert(ObjectsToUpdate, opt)
-    j = j + 1
-  end
   ColorField = SELF:GetOption("ColorField", "SolidColor")
+  ObjectsToUpdate = {}
+  local opt = SELF:GetOption("SegmentGroup")
+  if opt ~= "" then -- fetch more groups
+    j = 1
+    while true do
+      if opt == "" then break end
+      table.insert(ObjectsToUpdate, opt)
+      j = j + 1
+      opt = SELF:GetOption("SegmentGroup" .. j)
+    end
+  end
   ShadeSegmentsGradually = tonumber(SELF:GetOption("ShadeSegmentsGradually", 0))
   LastMeterSet = 0
 
