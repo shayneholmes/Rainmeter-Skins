@@ -1,0 +1,12 @@
+[Variables]
+; 1 for white, 0 for black
+ThemeColorLight=0
+
+ThemeColorValue=(#ThemeColorLight#?255:0)
+ThemeColorFull=#ThemeColorValue#,#ThemeColorValue#,#ThemeColorValue#
+ThemeColorMutedValue=(#ThemeColorLight#?160:95)
+ThemeColorMuted=#ThemeColorMutedValue#,#ThemeColorMutedValue#,#ThemeColorMutedValue#
+ThemeColorOppositeValue=(#ThemeColorLight#?0:255)
+ThemeColorOpposite=#ThemeColorOppositeValue#,#ThemeColorOppositeValue#,#ThemeColorOppositeValue#
+ThemeColorOppositeMutedValue=(#ThemeColorLight#?95:160)
+ThemeColorOppositeMuted=#ThemeColorOppositeMutedValue#,#ThemeColorOppositeMutedValue#,#ThemeColorOppositeMutedValue#
