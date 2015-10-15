@@ -19,16 +19,17 @@ function Initialize()
   LastPosition = 0
   ClockCounter = 0
   ClockScalarNextPeriod = 1 -- Starting point
-  ClockLastPeriod = os.clock()
-  ClockLastTick = os.clock()
+  ClockThisTick = os.clock()
+  ClockLastTick = ClockThisTick
+  ClockLastPeriod = ClockThisTick
   ResetInterval = SELF:GetNumberOption('ResetInterval', 5) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
   -- for robustness checking
   DebugID = os.clock()
   DebugClockScalar = 1.0 -- for testing robustness of PID controller
   -- variables for PID controller
-  Kp = 0.05
-  Ki = 0.10
-  Kd = 0.05
+  Kp = 0.00
+  Ki = 0.00
+  Kd = 0.00
   -- internal state of PID controller
   ErrorPLast = 0
   ErrorP = 0
@@ -63,12 +64,15 @@ function Update()
   local State = mState:GetValue() == 1 and 1 or 0
   local Stopped = mState:GetValue() == 0 and 1 or 0
   
+  ClockLastTick = ClockThisTick
+  ClockThisTick = os.clock()
+  
   if LastDuration ~= Total or (ActualPosition - LastPosition) > 2 or (ActualPosition - LastPosition) < 0 or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval then -- track change or skip
     -- print("track realignment due to skip, track change, or being paused for a while.")
     LastPosition = ActualPosition
     InterpolatedPosition = ActualPosition
     LastDuration = Total
-    ResetClock()
+    ClockLastPeriod = ClockThisTick
   end 
   
   if StartCountdown > 0 then
@@ -97,7 +101,7 @@ function Update()
       -- debug for PID analysis
       print("Smooth," .. 
         DebugID .. "," ..
-        os.clock() .. "," ..
+        ClockThisTick .. "," ..
         DebugClockScalar .. "," .. 
         Kp .. "," .. 
         Ki .. "," .. 
@@ -112,17 +116,16 @@ function Update()
       -- print("Special scalar: " .. ClockScalarNextPeriod)
 
       LastPosition = ActualPosition
-      ClockLastPeriod = os.clock()
+      ClockLastPeriod = ClockThisTick
     end
-    InterpolatedPosition = InterpolatedPosition + (os.clock() - ClockLastTick) * ClockScalarNextPeriod * DebugClockScalar
+    InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick) * ClockScalarNextPeriod * DebugClockScalar
     returnVal = math.min(InterpolatedPosition / Total, 0.999)
   else -- paused, reset clock
     -- print("Paused. Resetting clock.")
     LastPosition = ActualPosition
     -- InterpolatedPosition = ActualPosition
     LastDuration = Total
-    ClockLastPeriod = os.clock()
-    ClockLastTick = os.clock()
+    ClockLastPeriod = ClockThisTick
     ClockScalarNextPeriod = 1
     returnVal = math.min(InterpolatedPosition / Total, 0.999)
   end
@@ -130,8 +133,6 @@ function Update()
   if #ObjectsToUpdate > 0 then
     SetColors(returnVal)
   end
-  ClockLastTick = os.clock()
-
   return returnVal
   
 end
@@ -160,13 +161,6 @@ function SetColors(Value) -- use InterpolatedPosition to set the right squares
   end
   LastMeterSet = MeterToSet
 end
-
-function ResetClock()
-  ClockLastPeriod = os.clock()
-  ClockLastTick = os.clock()
-  ClockScalarNextPeriod = 1
-end
-
 
 --based on http://nomnuggetnom.deviantart.com/art/Muziko-for-Rainmeter-314928622
 --by Kaelri (Kaelri@gmail.com, http://kaelri.deviantart.com/)
