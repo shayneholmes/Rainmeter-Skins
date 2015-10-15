@@ -17,7 +17,7 @@ function Initialize()
   LastDuration = 0
   ClockThisTick = os.clock()
   ClockLastTick = ClockThisTick
-  ResetInterval = SELF:GetNumberOption('ResetInterval', 1) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
+  ResetInterval = SELF:GetNumberOption('ResetInterval', 1.5) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
 
   ActiveColorValue = 255
   InactiveColorValue = 96
