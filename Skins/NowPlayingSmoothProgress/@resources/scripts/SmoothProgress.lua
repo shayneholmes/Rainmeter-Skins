@@ -13,6 +13,7 @@ function Initialize()
 	mPosition = SKIN:GetMeasure('mPosition')
 	mState = SKIN:GetMeasure('mStateButton')
 	mState = SKIN:GetMeasure('mStateButton')
+  
 	InterpolatedPosition = 0
 	LastDuration = 0
 	LastPosition = 0
@@ -23,7 +24,7 @@ function Initialize()
 	ClockScalarNextPeriod = 1 -- Starting point
 	ClockLastPeriod = os.clock()
 	ClockLastTick = os.clock()
-	ResetInterval = SELF:GetNumberOption('ResetInterval', 1)
+	ResetInterval = SELF:GetNumberOption('ResetInterval', 5) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
 	-- for PID controller
 	Kp = 0.06
 	Ki = 0.0
@@ -71,7 +72,7 @@ function Update()
     ResetClock()
   end
 		
-	if LastDuration ~= Total or (ActualPosition - LastPosition) > 2 or (ActualPosition - LastPosition) < 0 then -- track change or skip
+	if LastDuration ~= Total or (ActualPosition - LastPosition) > 2 or (ActualPosition - LastPosition) < 0 or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval then -- track change or skip
     print("track realignment due to skip, track change, or being paused for a while.")
 		LastPosition = ActualPosition
 		InterpolatedPosition = ActualPosition
