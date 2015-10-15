@@ -71,7 +71,7 @@ function Update()
     ResetClock()
   end
 		
-	if LastDuration ~= Total or math.abs(ActualPosition - LastPosition) > 2 then -- track change or skip
+	if LastDuration ~= Total or (ActualPosition - LastPosition) > 2 or (ActualPosition - LastPosition) < 0 then -- track change or skip
     print("track realignment due to skip, track change, or being paused for a while.")
 		LastPosition = ActualPosition
 		InterpolatedPosition = ActualPosition
