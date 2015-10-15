@@ -83,7 +83,7 @@ function Update()
       ErrorPLast = ErrorP
       ClockScalarNextPeriod = 1-(ErrorP * Kp + ErrorI * Ki + ErrorD * Kd)
       if DebugMeasure ~= "" then
-        SKIN:Bang('!SetVariable', 'DebugOffset', math.floor((InterpolatedPosition - ActualPosition) * 1000))
+        SKIN:Bang('!SetVariable', 'DebugOffset', math.floor(ErrorP * 1000))
         SKIN:Bang('!SetVariable', 'DebugMultiple', ClockScalarNextPeriod)
         SKIN:Bang('!SetVariable', 'DebugErrorP', ErrorP)
         SKIN:Bang('!SetVariable', 'DebugErrorI', ErrorI)
