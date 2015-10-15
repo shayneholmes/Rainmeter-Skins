@@ -17,10 +17,7 @@ function Initialize()
 	InterpolatedPosition = 0
 	LastDuration = 0
 	LastPosition = 0
-	BestGuessCounter = 0
 	ClockCounter = 0
-	BestGuessPowerAverageFactor = 0.99 -- high values make for consistent progress bar motion; low values track more accurately but may look wonky
-	BestGuessClockScalar = 1 -- Starting point
 	ClockScalarNextPeriod = 1 -- Starting point
 	ClockLastPeriod = os.clock()
 	ClockLastTick = os.clock()
@@ -100,13 +97,12 @@ function Update()
       end
 			-- print("Ahead by " .. math.floor((InterpolatedPosition - ActualPosition) * 1000) .. " ms")
 			-- print("Clock since last: " .. os.clock() - ClockLastPeriod)
-			-- print("New Scalar: " .. BestGuessClockScalar)
 			-- print("Special scalar: " .. ClockScalarNextPeriod)
 
 			LastPosition = ActualPosition
 			ClockLastPeriod = os.clock()
 		end
-		InterpolatedPosition = InterpolatedPosition + (os.clock() - ClockLastTick) * BestGuessClockScalar * ClockScalarNextPeriod
+		InterpolatedPosition = InterpolatedPosition + (os.clock() - ClockLastTick) * ClockScalarNextPeriod
 		returnVal = math.min(InterpolatedPosition / Total, 0.999)
 	else -- paused, reset clock
     -- print("Paused. Resetting clock.")
