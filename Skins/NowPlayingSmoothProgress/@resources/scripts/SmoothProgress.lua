@@ -22,6 +22,7 @@ function Initialize()
 	ClockLastPeriod = os.clock()
 	ClockLastTick = os.clock()
 	ResetInterval = SELF:GetNumberOption('ResetInterval', 5) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
+  DebugClockScalar = 1.0 -- for testing robustness of PID controller
 	-- for PID controller
 	Kp = 0.06
 	Ki = 0.0
@@ -102,7 +103,7 @@ function Update()
 			LastPosition = ActualPosition
 			ClockLastPeriod = os.clock()
 		end
-		InterpolatedPosition = InterpolatedPosition + (os.clock() - ClockLastTick) * ClockScalarNextPeriod
+		InterpolatedPosition = InterpolatedPosition + (os.clock() - ClockLastTick) * ClockScalarNextPeriod * DebugClockScalar
 		returnVal = math.min(InterpolatedPosition / Total, 0.999)
 	else -- paused, reset clock
     -- print("Paused. Resetting clock.")
