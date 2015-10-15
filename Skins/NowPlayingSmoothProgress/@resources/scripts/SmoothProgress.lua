@@ -39,6 +39,7 @@ function Initialize()
   ActiveColor = ActiveColorValue .. "," .. ActiveColorValue .. "," .. ActiveColorValue
   InactiveColor = InactiveColorValue .. "," .. InactiveColorValue .. "," .. InactiveColorValue
   StartCountdown = 1 -- ticks to throw out on startup; the first one is always slow
+  FirstAlignment = 1 -- on refresh, this always starts off something like a second off
 
   NumberOfSegments = SKIN:ParseFormula(SKIN:GetVariable('NumberOfSegments'))
   ObjectsToUpdate = {}
@@ -77,6 +78,10 @@ function Update()
     returnVal = 0
   elseif State == 1 then -- playing
     if math.abs(ActualPosition - LastPosition) >= 1 then -- new tick; align with clock and adjust PID values
+      if FirstAlignment == 1 then
+        FirstAlignment = 0
+        InterpolatedPosition = ActualPosition
+      end
       ErrorP = InterpolatedPosition - ActualPosition
       ErrorI = ErrorI + ErrorP
       ErrorD = ErrorP - ErrorPLast
