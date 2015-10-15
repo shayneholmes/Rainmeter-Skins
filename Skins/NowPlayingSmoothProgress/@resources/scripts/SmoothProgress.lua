@@ -40,7 +40,7 @@ function Initialize()
   ShadeSegmentsGradually = tonumber(SELF:GetOption("ShadeSegmentsGradually", 0))
   LastMeterSet = 0
 
-  DebugMeasure = SELF:GetOption("DebugMeasure","")
+  Debug = SELF:GetOption("Debug",0)
 end
 
 function Update()
@@ -62,6 +62,9 @@ function Update()
   else
     if State == 1 then -- playing
       InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick)
+    end
+    if Debug ~= 0 then
+      SKIN:Bang('!SetVariable', 'DebugOffset', math.floor((InterpolatedPosition - ActualPosition)*1000))
     end
     returnVal = math.min(InterpolatedPosition / Duration, 0.999)
   end
