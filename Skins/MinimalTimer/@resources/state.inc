@@ -1,5 +1,5 @@
 [Variables]
-TimerEndOfTimer=13089375315
-ColorTimerArc=255,0,0,255
+TimerEndOfTimer=13089376082
+ColorTimerArc=96,96,128,255
 TimerCount=1
-ActiveTimerCount=1
+ActiveTimerCount=0
