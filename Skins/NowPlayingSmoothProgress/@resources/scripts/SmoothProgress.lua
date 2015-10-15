@@ -26,9 +26,9 @@ function Initialize()
   DebugID = os.clock()
   DebugClockScalar = 1.0 -- for testing robustness of PID controller
   -- variables for PID controller
-  Kp = 0.00
-  Ki = 0.00
-  Kd = 0.00
+  Kp = 0.05
+  Ki = 0.10
+  Kd = 0.05
   -- internal state of PID controller
   ErrorPLast = 0
   ErrorP = 0
@@ -86,7 +86,7 @@ function Update()
       ErrorI = ErrorI + ErrorP
       ErrorD = ErrorP - ErrorPLast
       ErrorPLast = ErrorP
-      ClockScalarNextPeriod = 1-(ErrorP * Kp + ErrorI * Ki + ErrorD * Kd)
+      ClockScalarNextPeriod = 1 - (ErrorP * Kp + ErrorI * Ki + ErrorD * Kd)
       if DebugMeasure ~= "" then
         SKIN:Bang('!SetVariable', 'DebugOffset', math.floor(ErrorP * 1000))
         SKIN:Bang('!SetVariable', 'DebugMultiple', ClockScalarNextPeriod)
