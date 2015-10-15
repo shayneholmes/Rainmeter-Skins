@@ -24,7 +24,7 @@ function Initialize()
   ActiveColor = ActiveColorValue .. "," .. ActiveColorValue .. "," .. ActiveColorValue
   InactiveColor = InactiveColorValue .. "," .. InactiveColorValue .. "," .. InactiveColorValue
 
-  NumberOfSegments = SKIN:ParseFormula(SKIN:GetVariable('NumberOfSegments'))
+  NumberOfSegments = SKIN:ParseFormula(SELF:GetOption('NumberOfSegments'))
   ColorField = SELF:GetOption("ColorField", "SolidColor")
   ObjectsToUpdate = {}
   local opt = SELF:GetOption("SegmentGroup")
