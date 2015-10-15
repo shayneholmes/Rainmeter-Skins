@@ -59,17 +59,6 @@ function Update()
 	local State = mState:GetValue() == 1 and 1 or 0
 	local Stopped = mState:GetValue() == 0 and 1 or 0
   
-  if StartCountdown > 0 then
-    StartCountdown = StartCountdown - 1
-    return 0
-  end
-
-  if SKIN:GetVariable('SmoothProgressResuming', 0) == '1' then
-    SKIN:Bang('!SetVariable', 'SmoothProgressResuming', 0)
-    print("Resuming.")
-    ResetClock()
-  end
-		
 	if LastDuration ~= Total or (ActualPosition - LastPosition) > 2 or (ActualPosition - LastPosition) < 0 or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval then -- track change or skip
     print("track realignment due to skip, track change, or being paused for a while.")
 		LastPosition = ActualPosition
@@ -81,7 +70,10 @@ function Update()
 		-- " Total: " .. Total)	
 	end 
 	
-	if Stopped == 1 or Total == 0 then -- stopped or no track
+  if StartCountdown > 0 then
+    StartCountdown = StartCountdown - 1
+    returnVal = InterpolatedPosition / Total
+  elseif Stopped == 1 or Total == 0 then -- stopped or no track
 		returnVal = 0
 	elseif State == 1 then -- playing
 		if math.abs(ActualPosition - LastPosition) >= 1 then -- new tick; align with clock and adjust PID values
