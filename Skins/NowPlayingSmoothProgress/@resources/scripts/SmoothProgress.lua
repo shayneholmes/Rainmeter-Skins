@@ -22,6 +22,8 @@ function Initialize()
 	ClockLastPeriod = os.clock()
 	ClockLastTick = os.clock()
 	ResetInterval = SELF:GetNumberOption('ResetInterval', 5) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
+  -- for robustness checking
+  DebugID = os.clock()
   DebugClockScalar = 1.0 -- for testing robustness of PID controller
 	-- for PID controller
 	Kp = 0.06
@@ -88,6 +90,19 @@ function Update()
         SKIN:Bang('!SetVariable', 'DebugErrorI', ErrorI)
         SKIN:Bang('!SetVariable', 'DebugErrorD', ErrorD)
       end
+      -- debug for PID analysis
+      print("Smooth," .. 
+        DebugID .. "," ..
+        os.clock() .. "," ..
+        DebugClockScalar .. "," .. 
+        Kp .. "," .. 
+        Ki .. "," .. 
+        Kd .. "," .. 
+        ErrorP .. "," .. 
+        ErrorI .. "," .. 
+        ErrorD .. "," .. 
+        ClockScalarNextPeriod
+        )
 			-- print("Ahead by " .. math.floor((InterpolatedPosition - ActualPosition) * 1000) .. " ms")
 			-- print("Clock since last: " .. os.clock() - ClockLastPeriod)
 			-- print("Special scalar: " .. ClockScalarNextPeriod)
