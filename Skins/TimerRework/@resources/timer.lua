@@ -32,6 +32,3 @@ function Update()
   return returnVal
 end
 
-function ChangeVar()
-  MyVariable = 'Changed'
-end
