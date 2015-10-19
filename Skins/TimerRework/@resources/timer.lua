@@ -32,7 +32,6 @@ function Update()
     SaveVariableToState('TimerCount')
     SaveVariableToState('ActiveTimerCount')
     SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
-    SKIN:Bang('!EnableMeasure', 'flashCounter')
     if AlarmAtEnd == 1 then
       SKIN:Bang('Play', 'Alarm.Wav')
     end
@@ -44,6 +43,7 @@ end
 function StartTimerAPI(duration, color, active)
   StartTimer(duration, color, active)
   AlarmAtEnd = 0
+  SKIN:Bang('!DisableMeasure', 'flashCounter')  
 end
 
 function StartTimer(duration, color, active)
@@ -60,6 +60,7 @@ function StartTimer(duration, color, active)
   SaveVariableToState('TimerEndOfTimer')
   SaveVariableToState('ActiveTimerCount')
   SKIN:Bang('!Update')
+  SKIN:Bang('!EnableMeasure', 'flashCounter')  
 end
 
 function SaveVariableToState(variablename, value)
