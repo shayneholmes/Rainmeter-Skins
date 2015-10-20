@@ -39,7 +39,7 @@ function Update()
     SaveVariableToState('ActiveTimerCount')
     SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
     if AlarmAtEnd == 1 then
-      SKIN:Bang('Play', 'Alarm.Wav')
+      SKIN:Bang('!execute [Play Alarm.Wav]') 
       Flashing = FlashTimeoutSeconds + TimeMeasure:GetValue()
       SKIN:Bang('!SetVariable', 'Flashing', Flashing)
     end
