@@ -44,13 +44,12 @@ end
 function StartTimerAPI(duration, color, active)
   StartTimer(duration, color, active)
   AlarmAtEnd = 0
-  SKIN:Bang('!DisableMeasure', 'flashCounter')  
 end
 
 function StartTimer(duration, color, active)
-  AlarmAtEnd = 1
   duration = tonumber(duration or 0)
   active = active or 0
+  SKIN:Bang('!DisableMeasure', 'flashCounter')  
   SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
   SKIN:Bang('!SetVariable', 'TimerEndOfTimer', duration * 60 + TimeMeasure:GetValue())
   EndOfTimerHash = (1+EndOfTimerHash*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
@@ -62,6 +61,7 @@ function StartTimer(duration, color, active)
   SaveVariableToState('ActiveTimerCount')
   SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 #TimerDuration#')
   SKIN:Bang('!Update')
+  AlarmAtEnd = 1
 end
 
 function SaveVariableToState(variablename, value)
