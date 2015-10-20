@@ -47,12 +47,13 @@ function StartTimerAPI(duration, color, active)
 end
 
 function StartTimer(duration, color, active)
+  AlarmAtEnd = 0
   duration = tonumber(duration or 0)
   active = active or 0
   SKIN:Bang('!DisableMeasure', 'flashCounter')  
   SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
   SKIN:Bang('!SetVariable', 'TimerEndOfTimer', duration * 60 + TimeMeasure:GetValue())
-  EndOfTimerHash = (1+EndOfTimerHash*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
+  EndOfTimerHash = ((1+EndOfTimerHash)*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
   SKIN:Bang('!SetVariable', 'EndOfTimerHash', EndOfTimerHash)
   SKIN:Bang('!SetVariable', 'ActiveTimerCount', active)
   SKIN:Bang('!UpdateMeasure', 'MeasureTimerScript')
