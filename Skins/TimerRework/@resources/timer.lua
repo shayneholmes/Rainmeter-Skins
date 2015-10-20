@@ -4,10 +4,12 @@ function Initialize()
   ColorTimerArc=(SKIN:GetVariable('ColorTimerArc', '0,255,0,255'))
   TimerCount=tonumber(SKIN:GetVariable('TimerCount', '0'))
   ActiveTimerCount=tonumber(SKIN:GetVariable('ActiveTimerCount', '0'))
+  FlashTimeoutSeconds=tonumber(SKIN:GetVariable('FlashTimeoutSeconds', '30'))
   TimeMeasure=SKIN:GetMeasure('MeasureTime')
   TimeOffset=0 -- represents the offset between os.clock() and Rainmeter time
   AlarmAtEnd=0 -- if turned on, alarm plays at end
   EndOfTimerHash=1
+  Flashing=0
 end
 
 function Update()
@@ -21,6 +23,10 @@ function Update()
   CurrentTime = os.clock() + TimeOffset
   if TimerEndOfTimer == 0 then
     returnVal = -1
+    if Flashing > 0 and Flashing <= CurrentTime then
+      Flashing = 0
+      SKIN:Bang('!SetVariable', 'Flashing', Flashing)
+    end
   elseif TimerEndOfTimer > CurrentTime then
     returnVal = TimerEndOfTimer - CurrentTime
   else
@@ -34,7 +40,8 @@ function Update()
     SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
     if AlarmAtEnd == 1 then
       SKIN:Bang('Play', 'Alarm.Wav')
-      SKIN:Bang('!EnableMeasure', 'flashCounter')  
+      Flashing = FlashTimeoutSeconds + TimeMeasure:GetValue()
+      SKIN:Bang('!SetVariable', 'Flashing', Flashing)
     end
     returnVal = -1
   end
@@ -49,7 +56,8 @@ end
 function StartTimer(duration, color, active)
   duration = tonumber(duration or 0)
   active = active or 0
-  SKIN:Bang('!DisableMeasure', 'flashCounter')  
+  Flashing = 0
+  SKIN:Bang('!SetVariable', 'Flashing', Flashing)
   SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
   if duration <= 0 then 
     endoftimer = 0
