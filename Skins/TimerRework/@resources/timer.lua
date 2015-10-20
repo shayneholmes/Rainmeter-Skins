@@ -60,6 +60,7 @@ function StartTimer(duration, color, active)
   SaveVariableToState('ColorTimerArc')
   SaveVariableToState('TimerEndOfTimer')
   SaveVariableToState('ActiveTimerCount')
+  SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 #TimerDuration#')
   SKIN:Bang('!Update')
 end
 
