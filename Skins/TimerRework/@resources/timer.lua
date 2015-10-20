@@ -53,6 +53,7 @@ function StartTimer(duration, color, active)
   SKIN:Bang('!DisableMeasure', 'flashCounter')  
   SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
   SKIN:Bang('!SetVariable', 'TimerEndOfTimer', duration * 60 + TimeMeasure:GetValue())
+  -- riffing on https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html
   EndOfTimerHash = ((1+EndOfTimerHash)*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
   SKIN:Bang('!SetVariable', 'EndOfTimerHash', EndOfTimerHash)
   SKIN:Bang('!SetVariable', 'ActiveTimerCount', active)
