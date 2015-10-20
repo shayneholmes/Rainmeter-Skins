@@ -47,12 +47,16 @@ function StartTimerAPI(duration, color, active)
 end
 
 function StartTimer(duration, color, active)
-  AlarmAtEnd = 0
   duration = tonumber(duration or 0)
   active = active or 0
   SKIN:Bang('!DisableMeasure', 'flashCounter')  
   SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
-  SKIN:Bang('!SetVariable', 'TimerEndOfTimer', duration * 60 + TimeMeasure:GetValue())
+  if duration < 0 then 
+    endoftimer = 0
+  else
+    endoftimer = duration * 60 + TimeMeasure:GetValue()
+  end
+  SKIN:Bang('!SetVariable', 'TimerEndOfTimer', endoftimer)
   -- riffing on https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html
   EndOfTimerHash = ((1+EndOfTimerHash)*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
   SKIN:Bang('!SetVariable', 'EndOfTimerHash', EndOfTimerHash)
