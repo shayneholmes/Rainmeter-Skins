@@ -1,4 +1,0 @@
-[Variables]
-TimerEndOfTimer=13013007564
-ColorTimerArc=255,0,0,255
-TimerCount=(3+#ActiveTimerCount#)
