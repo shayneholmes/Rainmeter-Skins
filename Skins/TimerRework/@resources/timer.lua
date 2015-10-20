@@ -51,7 +51,7 @@ function StartTimer(duration, color, active)
   active = active or 0
   SKIN:Bang('!DisableMeasure', 'flashCounter')  
   SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
-  if duration < 0 then 
+  if duration <= 0 then 
     endoftimer = 0
   else
     endoftimer = duration * 60 + TimeMeasure:GetValue()
