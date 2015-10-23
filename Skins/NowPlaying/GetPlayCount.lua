@@ -1,3 +1,15 @@
+function Initialize()
+  filename=SELF:GetOption("FilePath")
+  playcount=0
+end
+
+function Update()
+  return playcount
+end
+
+function Refresh()
+  playcount=tonumber(string.match(ReadFile(filename),'%d+'))
+end
 
 -- from http://docs.rainmeter.net/snippets/read-write-file/
 function ReadFile(FilePath)
@@ -9,8 +21,7 @@ function ReadFile(FilePath)
 
 	-- HANDLE ERROR OPENING FILE.
 	if not File then
-		print('ReadFile: unable to open file at ' .. FilePath)
-		return
+    return "0"
 	end
 
 	-- READ FILE CONTENTS AND CLOSE.
