@@ -1,13 +1,26 @@
 function Initialize()
   filename=SELF:GetOption("FilePath")
   playcount=0
+  updatesPerRefresh=30 -- try twice, wait this number of updates
+  updatesLeft=-1
 end
 
 function Update()
+  if updatesLeft >= 0 then
+    if updatesLeft == 0 then
+      RefreshPlayCount()
+    end
+    updatesLeft = updatesLeft - 1
+  end
   return playcount
 end
 
 function Refresh()
+  RefreshPlayCount()
+  updatesLeft = updatesPerRefresh
+end
+
+function RefreshPlayCount()
   playcount=tonumber(string.match(ReadFile(filename),'%d+'))
 end
 
