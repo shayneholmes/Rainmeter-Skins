@@ -49,7 +49,6 @@ end
 
 function StartTimerHelper(duration, color, active, alarmatend)
   duration = tonumber(duration or 0)
-  active = active or 0
   Flashing = 0
   SKIN:Bang('!SetVariable', 'Flashing', Flashing)
   SetVariable('ColorTimerArc', color)
@@ -61,7 +60,7 @@ function StartTimerHelper(duration, color, active, alarmatend)
   SetVariable('TimerEndOfTimer', TimerEndOfTimer)
   -- riffing on https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html
   SetVariable('EndOfTimerHash', ((1+SKIN:GetVariable('EndOfTimerHash', '1'))*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1)
-  SetVariable('ActiveTimerCount', active)
+  SetVariable('ActiveTimerCount', active or 0)
   SKIN:Bang('!UpdateMeasure', 'MeasureTimerScript')
   SKIN:Bang('!Update')
   SetVariable('AlarmAtEnd', alarmatend)
