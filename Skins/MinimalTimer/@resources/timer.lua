@@ -24,7 +24,6 @@ function Update()
     TimerEndOfTimer = 0
     SetVariable('TimerEndOfTimer', TimerEndOfTimer)
     SetVariable('TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
-    SetVariable('ActiveTimerCount ', '0')
     SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
     if tonumber(SKIN:GetVariable('AlarmAtEnd', '0')) == 1 then
       SKIN:Bang('!execute [Play Alarm.Wav]') 
