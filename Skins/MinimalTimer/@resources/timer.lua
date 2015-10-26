@@ -5,7 +5,6 @@ function Initialize()
   TimeMeasure=SKIN:GetMeasure('MeasureTime')
   TimeOffset=0 -- represents the offset between os.clock() and Rainmeter time
   AlarmAtEnd=0 -- if turned on, alarm plays at end
-  EndOfTimerHash=1
   Flashing=0
 end
 
@@ -63,8 +62,7 @@ function StartTimerHelper(duration, color, active)
   end
   SetVariable('TimerEndOfTimer', TimerEndOfTimer)
   -- riffing on https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html
-  EndOfTimerHash = ((1+EndOfTimerHash)*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
-  SetVariable('EndOfTimerHash', EndOfTimerHash)
+  SetVariable('EndOfTimerHash', ((1+SKIN:GetVariable('EndOfTimerHash', '1'))*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1)
   SetVariable('ActiveTimerCount', active)
   SKIN:Bang('!UpdateMeasure', 'MeasureTimerScript')
   SKIN:Bang('!Update')
