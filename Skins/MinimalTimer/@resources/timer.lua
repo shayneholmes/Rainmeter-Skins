@@ -44,7 +44,7 @@ end
 
 function StartTimer(duration, color, active)
   StartTimerHelper(duration, color, active, 1)
-  SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 #TimerDuration#')
+  SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 ' .. duration * 60)
 end
 
 function StartTimerHelper(duration, color, active, alarmatend)
