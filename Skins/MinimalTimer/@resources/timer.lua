@@ -13,9 +13,6 @@ function Initialize()
 end
 
 function Update()
-  if TimerEndOfTimer == nil then 
-    TimerEndOfTimer = 0
-  end
   if TimeOffset == 0 then 
     TimeOffset=TimeMeasure:GetValue() - os.clock()
   end
