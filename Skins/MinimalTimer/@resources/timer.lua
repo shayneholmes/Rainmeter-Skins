@@ -12,16 +12,15 @@ function Update()
     TimeOffset=TimeMeasure:GetValue() - os.clock()
   end
   CurrentTime = os.clock() + TimeOffset
+  returnVal = -1
   if TimerEndOfTimer == 0 then
-    returnVal = -1
     if Flashing > 0 and Flashing <= CurrentTime then
       Flashing = 0
       SKIN:Bang('!SetVariable', 'Flashing', Flashing)
     end
   elseif TimerEndOfTimer > CurrentTime then
     returnVal = TimerEndOfTimer - CurrentTime
-  else
-    -- timer ends now
+  else -- timer ends now
     TimerEndOfTimer = 0
     SetVariable('TimerEndOfTimer', TimerEndOfTimer)
     SetVariable('TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
@@ -32,7 +31,6 @@ function Update()
       Flashing = FlashTimeoutSeconds + TimeMeasure:GetValue()
       SKIN:Bang('!SetVariable', 'Flashing', Flashing)
     end
-    returnVal = -1
   end
   return returnVal
 end
