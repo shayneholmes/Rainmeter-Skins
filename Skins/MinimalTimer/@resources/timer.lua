@@ -1,9 +1,6 @@
 function Initialize()
   -- Get variables from external state
   TimerEndOfTimer=tonumber(SKIN:GetVariable('TimerEndOfTimer', '0'))
-  ColorTimerArc=(SKIN:GetVariable('ColorTimerArc', '0,255,0,255'))
-  TimerCount=tonumber(SKIN:GetVariable('TimerCount', '0'))
-  ActiveTimerCount=tonumber(SKIN:GetVariable('ActiveTimerCount', '0'))
   FlashTimeoutSeconds=tonumber(SKIN:GetVariable('FlashTimeoutSeconds', '30'))
   TimeMeasure=SKIN:GetMeasure('MeasureTime')
   TimeOffset=0 -- represents the offset between os.clock() and Rainmeter time
