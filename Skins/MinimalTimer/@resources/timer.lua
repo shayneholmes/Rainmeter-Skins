@@ -13,7 +13,6 @@ function Initialize()
 end
 
 function Update()
-  TimerEndOfTimer=tonumber(SKIN:GetVariable('TimerEndOfTimer', '0'))
   if TimerEndOfTimer == nil then 
     TimerEndOfTimer = 0
   end
@@ -31,7 +30,8 @@ function Update()
     returnVal = TimerEndOfTimer - CurrentTime
   else
     -- timer ends now
-    SetVariable('TimerEndOfTimer', 0)
+    TimerEndOfTimer = 0
+    SetVariable('TimerEndOfTimer', TimerEndOfTimer)
     SetVariable('TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
     SetVariable('ActiveTimerCount ', '0')
     SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
@@ -63,11 +63,11 @@ function StartTimerHelper(duration, color, active)
   SKIN:Bang('!SetVariable', 'Flashing', Flashing)
   SetVariable('ColorTimerArc', color)
   if duration <= 0 then 
-    endoftimer = 0
+    TimerEndOfTimer = 0
   else
-    endoftimer = duration * 60 + TimeMeasure:GetValue()
+    TimerEndOfTimer = duration * 60 + TimeMeasure:GetValue()
   end
-  SetVariable('TimerEndOfTimer', endoftimer)
+  SetVariable('TimerEndOfTimer', TimerEndOfTimer)
   -- riffing on https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html
   EndOfTimerHash = ((1+EndOfTimerHash)*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
   SetVariable('EndOfTimerHash', EndOfTimerHash)
