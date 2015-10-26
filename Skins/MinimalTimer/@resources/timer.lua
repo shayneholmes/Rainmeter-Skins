@@ -39,11 +39,11 @@ function EndTimer()
 end
 
 function StartTimerAPI(duration, color, active)
-  StartTimerHelper(duration, color, active, '0')
+  StartTimerHelper(duration, color, active, 0)
 end
 
 function StartTimer(duration, color, active)
-  StartTimerHelper(duration, color, active, '1')
+  StartTimerHelper(duration, color, active, 1)
   SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 #TimerDuration#')
 end
 
