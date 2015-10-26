@@ -20,18 +20,22 @@ function Update()
     end
   elseif TimerEndOfTimer > CurrentTime then
     returnVal = TimerEndOfTimer - CurrentTime
-  else -- timer ends now
-    TimerEndOfTimer = 0
-    SetVariable('TimerEndOfTimer', TimerEndOfTimer)
-    SetVariable('TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
-    SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
-    if tonumber(SKIN:GetVariable('AlarmAtEnd', '0')) == 1 then
-      SKIN:Bang('!execute [Play Alarm.Wav]') 
-      Flashing = FlashTimeoutSeconds + TimeMeasure:GetValue()
-      SKIN:Bang('!SetVariable', 'Flashing', Flashing)
-    end
+  else
+    EndTimer()
   end
   return returnVal
+end
+
+function EndTimer()
+  TimerEndOfTimer = 0
+  SetVariable('TimerEndOfTimer', TimerEndOfTimer)
+  SetVariable('TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
+  SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
+  if tonumber(SKIN:GetVariable('AlarmAtEnd', '0')) == 1 then
+    SKIN:Bang('!execute [Play Alarm.Wav]') 
+    Flashing = FlashTimeoutSeconds + TimeMeasure:GetValue()
+    SKIN:Bang('!SetVariable', 'Flashing', Flashing)
+  end
 end
 
 function StartTimerAPI(duration, color, active)
