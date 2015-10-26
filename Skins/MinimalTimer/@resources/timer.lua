@@ -35,17 +35,15 @@ function Update()
 end
 
 function StartTimerAPI(duration, color, active)
-  StartTimerHelper(duration, color, active)
-  SetVariable('AlarmAtEnd', '0')
+  StartTimerHelper(duration, color, active, '0')
 end
 
 function StartTimer(duration, color, active)
-  StartTimerHelper(duration, color, active)
-  SetVariable('AlarmAtEnd', '1')
+  StartTimerHelper(duration, color, active, '1')
   SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 #TimerDuration#')
 end
 
-function StartTimerHelper(duration, color, active)
+function StartTimerHelper(duration, color, active, alarmatend)
   duration = tonumber(duration or 0)
   active = active or 0
   Flashing = 0
@@ -62,6 +60,7 @@ function StartTimerHelper(duration, color, active)
   SetVariable('ActiveTimerCount', active)
   SKIN:Bang('!UpdateMeasure', 'MeasureTimerScript')
   SKIN:Bang('!Update')
+  SetVariable('AlarmAtEnd', alarmatend)
 end
 
 function SetVariable(variablename, value)
