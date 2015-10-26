@@ -31,12 +31,9 @@ function Update()
     returnVal = TimerEndOfTimer - CurrentTime
   else
     -- timer ends now
-    SKIN:Bang('!SetVariable', 'TimerEndOfTimer', 0)
-    SKIN:Bang('!SetVariable', 'TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
-    SKIN:Bang('!SetVariable', 'ActiveTimerCount ', '0')
-    SaveVariableToState('TimerEndOfTimer')
-    SaveVariableToState('TimerCount')
-    SaveVariableToState('ActiveTimerCount')
+    SetVariable('TimerEndOfTimer', 0)
+    SetVariable('TimerCount', '(#TimerCount#+#ActiveTimerCount#)')
+    SetVariable('ActiveTimerCount ', '0')
     SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 1 0')
     if AlarmAtEnd == 1 then
       SKIN:Bang('!execute [Play Alarm.Wav]') 
@@ -64,27 +61,26 @@ function StartTimerHelper(duration, color, active)
   active = active or 0
   Flashing = 0
   SKIN:Bang('!SetVariable', 'Flashing', Flashing)
-  SKIN:Bang('!SetVariable', 'ColorTimerArc', color)
+  SetVariable('ColorTimerArc', color)
   if duration <= 0 then 
     endoftimer = 0
   else
     endoftimer = duration * 60 + TimeMeasure:GetValue()
   end
-  SKIN:Bang('!SetVariable', 'TimerEndOfTimer', endoftimer)
+  SetVariable('TimerEndOfTimer', endoftimer)
   -- riffing on https://www.cs.hmc.edu/~geoff/classes/hmc.cs070.200101/homework10/hashfuncs.html
   EndOfTimerHash = ((1+EndOfTimerHash)*TimeMeasure:GetValue()*0.5*(math.sqrt(5)-1)) % 1
-  SKIN:Bang('!SetVariable', 'EndOfTimerHash', EndOfTimerHash)
-  SKIN:Bang('!SetVariable', 'ActiveTimerCount', active)
+  SetVariable('EndOfTimerHash', EndOfTimerHash)
+  SetVariable('ActiveTimerCount', active)
   SKIN:Bang('!UpdateMeasure', 'MeasureTimerScript')
-  SaveVariableToState('ColorTimerArc')
-  SaveVariableToState('TimerEndOfTimer')
-  SaveVariableToState('ActiveTimerCount')
   SKIN:Bang('!Update')
 end
 
-function SaveVariableToState(variablename, value)
+function SetVariable(variablename, value)
   if value == nil then
     value = '#' .. variablename .. '#'
+  else
+    SKIN:Bang('!SetVariable', variablename, value)
   end
   SKIN:Bang('!WriteKeyValue', 'Variables', variablename, value, '#@#state.inc')
 end
