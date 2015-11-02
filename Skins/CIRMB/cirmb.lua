@@ -37,7 +37,6 @@ local TEMP_DESCRIPTORS = {
 }
 -- words of encouragement
 local ENCOURAGEMENT = {
-    "you should get out there",
     "you need the exercise",
     "that bike won't ride itself",
     "you don't want to miss it",
