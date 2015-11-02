@@ -123,6 +123,7 @@ local adverseWeather = {
   [17] = "hailing", -- hail
   [18] = "rainy", -- sleet
   [23] = "windy", -- blustery
+  [24] = "windy", -- windy
   [35] = "rainy", -- mixed rain and hail
   }
 
@@ -199,8 +200,8 @@ end
 
 --[[ Given the current temperature and its scale,
   return a message of encouragement to tack on ]]
-local function getEncouragement( temp, unit )
-    local agreeable = (temp > COOL_LIMIT) and (temp < WARM_LIMIT)
+local function getEncouragement( code, temp, unit )
+    local agreeable = (temp > COOL_LIMIT) and (temp < WARM_LIMIT) and (adverseWeather[code] == nil)
     local text = ", " 
       .. (agreeable and "and " or "but ")
       .. (ENCOURAGEMENT[math.random(#ENCOURAGEMENT)])
@@ -218,7 +219,7 @@ end
   for the secondary string meter ]]
 local function getSubString( code, temp, unit )
     local substring = dangerousWeather[code] == nil
-      and string.format("It's %s out%s", getTempWords(code, temp, unit), getEncouragement(temp, unit))
+      and string.format("It's %s out%s", getTempWords(code, temp, unit), getEncouragement(code, temp, unit))
       or dangerousWeather[code] .. ", so be careful"
     return substring
 end
@@ -233,7 +234,7 @@ local function test()
     for i = -20, 100, 5 do
         printf("t=%d, s=%s", i, getTempWords(19, i))
     end
-    for k, v in pairs(allWeatherCodes) do
+    for k, v in pairs(allWeather) do
       printf("%s: %s / %s", v, getMainString(k), getSubString( k, 40, 'f'))
     end
 end
