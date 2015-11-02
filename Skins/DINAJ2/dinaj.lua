@@ -50,7 +50,7 @@ local ENCOURAGEMENT_AGREEABLE = {
 }
 
 -- measure handles
-local tempStrMsr, tempUnitMsr
+local tempStrMsr, tempUnitMsr, tempCodeMsr
 -- meter handles
 local mainMeter, subMeter
 
@@ -160,6 +160,7 @@ function Initialize()
     -- measure handles
     tempStrMsr = SKIN:GetMeasure("mChillTemp")
     tempUnitMsr = SKIN:GetMeasure("mTempUnit")
+    tempCodeMsr = SKIN:GetMeasure("mCode")
     -- meter handles
     mainMeter = SKIN:GetMeter("mainString")
     subMeter = SKIN:GetMeter("subString")
