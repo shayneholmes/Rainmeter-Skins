@@ -1,7 +1,8 @@
 --[[
     Lua script to use with dinaj.ini Rainmeter skin
-    FlyingHyrax
-    2014-11-15
+    Shayne Holmes
+    2015-11-02
+    Orig. by FlyingHyrax, 2014-11-15
 --]]
 
 --[[ LOCAL VARIABLES =========================================================]]
