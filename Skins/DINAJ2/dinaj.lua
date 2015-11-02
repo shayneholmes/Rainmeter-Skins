@@ -7,7 +7,7 @@
 --[[ LOCAL VARIABLES =========================================================]]
 
 -- personal taste - values parsed from skin variables
-local JACKET_LIMIT, COAT_LIMIT, UNIT
+local WARM_LIMIT, COOL_LIMIT, UNIT
 -- NOT personal taste - used to distribute descriptors across range of temperatures
 local TEMP_MIN, TEMP_MAX = -10, 120
 -- words for describing various temperatures
@@ -33,6 +33,15 @@ local TEMP_DESCRIPTORS = {
     "scorching",
     "oven-like",
     "your hair is on FIRE",
+}
+-- words of encouragement for adverse weather
+local ENCOURAGEMENT_ADVERSE = {
+    "and you're no wuss",
+}
+-- words of encouragement for nice weather
+local ENCOURAGEMENT_AGREEABLE = {
+    "so get out there",
+    "and you need the exercise",
 }
 
 -- measure handles
@@ -101,18 +110,24 @@ local function getTempWord( temp, unit )
     return TEMP_DESCRIPTORS[index]
 end
 
+--[[ Given the current temperature and its scale,
+  return a message of encouragement to tack on ]]
+local function getEncouragement( temp, unit )
+    local agreeable = (temp > COOL_LIMIT) and (temp < WARM_LIMIT)
+    local text = ", " .. (agreeable and ENCOURAGEMENT_AGREEABLE[1] or ENCOURAGEMENT_ADVERSE[1])
+    return text
+end
+
 --[[ Given the current temperature, return the appropriate
   string for the main string meter ]]
 local function getMainString( temp )
-    local negation = (temp > JACKET_LIMIT) and " don't" or ""
-    local outerwear = (temp < COAT_LIMIT) and "coat" or "jacket"
     return string.format("You can ride your bike")
 end
 
 --[[ Given the current temperature and its unit, return the appropriate string
   for the secondary string meter ]]
 local function getSubString( temp, unit )
-    return string.format("It's %s outside", getTempWord(temp, unit))
+    return string.format("It's %s outside%s", getTempWord(temp, unit), getEncouragement(temp, unit))
 end
 
 --[[ Sets the Text value of the specified meter with a SetOption bang ]]
@@ -134,8 +149,8 @@ end
   Retrieves user specified values from variables and handles to measures and meters ]]
 function Initialize()
     -- read settings
-    JACKET_LIMIT = tonumber(SKIN:GetVariable("jacket_temp", 65))
-    COAT_LIMIT = tonumber(SKIN:GetVariable("coat_temp", 35))
+    WARM_LIMIT = tonumber(SKIN:GetVariable("comfortable_warm", 70))
+    COOL_LIMIT = tonumber(SKIN:GetVariable("comfortable_cool", 50))
     UNIT = string.lower(SKIN:GetVariable("unit", "f"))
     -- measure handles
     tempStrMsr = SKIN:GetMeasure("mChillTemp")
