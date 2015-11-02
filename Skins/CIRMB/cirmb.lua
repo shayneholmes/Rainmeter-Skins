@@ -1,5 +1,5 @@
 --[[
-    Lua script to use with dinaj.ini Rainmeter skin
+    Lua script to use with sirmb.ini Rainmeter skin
     Shayne Holmes
     2015-11-02
     Orig. by FlyingHyrax, 2014-11-15
