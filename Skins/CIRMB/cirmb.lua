@@ -99,7 +99,6 @@ local allWeather = {
   [47] = "isolated thundershowers",
   [3200] = "not available",
   }
--- populate dangerous and adverse weather code tables
 local dangerousWeather = {
   [0] = "Tornadoes aren't fun", -- tornado
   [1] = "Tropical storms are dangerous", -- tropical storm
