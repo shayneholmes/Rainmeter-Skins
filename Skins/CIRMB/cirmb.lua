@@ -33,7 +33,7 @@ local TEMP_DESCRIPTORS = {
     "roasting",
     "scorching",
     "oven-like",
-    "your hair is on FIRE",
+    "hot as the sun",
 }
 -- words of encouragement
 local ENCOURAGEMENT = {
