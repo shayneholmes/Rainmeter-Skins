@@ -35,20 +35,100 @@ local TEMP_DESCRIPTORS = {
     "oven-like",
     "your hair is on FIRE",
 }
--- words of encouragement for adverse weather
-local ENCOURAGEMENT_ADVERSE = {
-    "and you're no wuss",
-    "and cyclists gotta cycle",
-    "and this is the perfect chance to harden up",
-    "and this is when the tough gets going",
+-- words of encouragement
+local ENCOURAGEMENT = {
+    "you should get out there",
+    "you need the exercise",
+    "that bike won't ride itself",
+    "you don't want to miss it",
+    "you're no wuss",
+    "cyclists gotta cycle",
+    "this is the perfect chance to harden up",
+    "this is when the tough gets going",
 }
--- words of encouragement for nice weather
-local ENCOURAGEMENT_AGREEABLE = {
-    "so get out there",
-    "and you need the exercise",
-    "and that bike won't ride itself",
-    "and you don't want to miss it",
-}
+-- all weather codes
+-- from https://developer.yahoo.com/weather/documentation.html#codes
+local allWeather = {
+  [0] = "tornado",
+  [1] = "tropical storm",
+  [2] = "hurricane",
+  [3] = "severe thunderstorms",
+  [4] = "thunderstorms",
+  [5] = "mixed rain and snow",
+  [6] = "mixed rain and sleet",
+  [7] = "mixed snow and sleet",
+  [8] = "freezing drizzle",
+  [9] = "drizzle",
+  [10] = "freezing rain",
+  [11] = "showers",
+  [12] = "showers",
+  [13] = "snow flurries",
+  [14] = "light snow showers",
+  [15] = "blowing snow",
+  [16] = "snow",
+  [17] = "hail",
+  [18] = "sleet",
+  [19] = "dust",
+  [20] = "foggy",
+  [21] = "haze",
+  [22] = "smoky",
+  [23] = "blustery",
+  [24] = "windy",
+  [25] = "cold",
+  [26] = "cloudy",
+  [27] = "mostly cloudy (night)",
+  [28] = "mostly cloudy (day)",
+  [29] = "partly cloudy (night)",
+  [30] = "partly cloudy (day)",
+  [31] = "clear (night)",
+  [32] = "sunny",
+  [33] = "fair (night)",
+  [34] = "fair (day)",
+  [35] = "mixed rain and hail",
+  [36] = "hot",
+  [37] = "isolated thunderstorms",
+  [38] = "scattered thunderstorms",
+  [39] = "scattered thunderstorms",
+  [40] = "scattered showers",
+  [41] = "heavy snow",
+  [42] = "scattered snow showers",
+  [43] = "heavy snow",
+  [44] = "partly cloudy",
+  [45] = "thundershowers",
+  [46] = "snow showers",
+  [47] = "isolated thundershowers",
+  [3200] = "not available",
+  }
+-- populate dangerous and adverse weather code tables
+local dangerousWeather = {
+  [0] = "Tornadoes aren't fun", -- tornado
+  [1] = "Tropical storms are dangerous", -- tropical storm
+  [2] = "Hurricanes are afoot", -- hurricane
+  [3] = "Severe thunderstorms can kill you", -- severe thunderstorms
+  [4] = "Nobody likes thunderstorms", -- thunderstorms
+  [5] = "Mixed rain and snow lessens traction", -- mixed rain and snow
+  [8] = "Freezing drizzle is nasty", -- freezing drizzle
+  [10] = "Freezing rain can hurt you", -- freezing rain
+  [13] = "Snow flurries are blinding", -- snow flurries
+  [14] = "Light snow showers can make riding tough", -- light snow showers
+  [15] = "Blowing snow reduces visibility", -- blowing snow
+  [16] = "Snow gets in your path", -- snow
+  [41] = "Heavy snow is inconvenient at best", -- heavy snow
+  [43] = "Heavy snow can make you slip", -- heavy snow
+  [45] = "Thundershowers can be dangerous", -- thundershowers
+  [46] = "Snow showers are gnarly", -- snow showers
+  }
+local adverseWeather = {
+  [6] = "a little rainy", -- mixed rain and sleet
+  [7] = "a little rainy", -- mixed snow and sleet
+  [9] = "a little rainy", -- drizzle
+  [11] = "rainy", -- showers
+  [12] = "rainy", -- showers
+  [17] = "hailing", -- hail
+  [18] = "rainy", -- sleet
+  [23] = "windy", -- blustery
+  [35] = "rainy", -- mixed rain and hail
+  }
 
 -- measure handles
 local tempStrMsr, tempUnitMsr, tempCodeMsr
@@ -101,7 +181,7 @@ end
 
 --[[ Given the current temperature and its scale,
   return a descriptor for that temperature ]]
-local function getTempWord( temp, unit )
+local function getTempWords( code, temp, unit )
     -- convert our range bounds to celsius if necessary
     local unit = unit or 'f'
     local tmin = unit == 'f' and TEMP_MIN or f2c(TEMP_MIN)
@@ -112,28 +192,39 @@ local function getTempWord( temp, unit )
     local index = math.ceil( #TEMP_DESCRIPTORS * tempPer )
     -- if temp is 0% of our range, index will be off by one
     if index < 1 then index = 1 end
-    -- return that word
-    return TEMP_DESCRIPTORS[index]
+    -- pick that word
+    local descriptor = TEMP_DESCRIPTORS[index]
+    -- add adverse weather message if needed
+    if adverseWeather[code] ~= nil then
+      descriptor = descriptor .. " and " .. adverseWeather[code]
+    end
+    return descriptor
 end
 
 --[[ Given the current temperature and its scale,
   return a message of encouragement to tack on ]]
 local function getEncouragement( temp, unit )
     local agreeable = (temp > COOL_LIMIT) and (temp < WARM_LIMIT)
-    local text = ", " .. (agreeable and ENCOURAGEMENT_AGREEABLE[math.random(#ENCOURAGEMENT_AGREEABLE)] or ENCOURAGEMENT_ADVERSE[math.random(#ENCOURAGEMENT_ADVERSE)])
+    local text = ", " 
+      .. (agreeable and "and " or "but ")
+      .. (ENCOURAGEMENT[math.random(#ENCOURAGEMENT)])
     return text
 end
 
 --[[ Given the current temperature, return the appropriate
   string for the main string meter ]]
-local function getMainString( temp )
-    return string.format("You can ride your bike")
+local function getMainString( code )
+    local negation = dangerousWeather[code] == nil and "can" or "shouldn't"
+    return string.format("You %s ride your bike", negation)
 end
 
 --[[ Given the current temperature and its unit, return the appropriate string
   for the secondary string meter ]]
-local function getSubString( temp, unit )
-    return string.format("It's %s outside%s", getTempWord(temp, unit), getEncouragement(temp, unit))
+local function getSubString( code, temp, unit )
+    local substring = dangerousWeather[code] == nil
+      and string.format("It's %s outside%s", getTempWords(code, temp, unit), getEncouragement(temp, unit))
+      or dangerousWeather[code] .. ", be careful out there"
+    return substring
 end
 
 --[[ Sets the Text value of the specified meter with a SetOption bang ]]
@@ -144,10 +235,12 @@ end
 --[[ Log the descriptor which is returned for various temperatures ]]
 local function test()
     for i = -20, 100, 5 do
-        printf("t=%d, s=%s", i, getTempWord(i))
+        printf("t=%d, s=%s", i, getTempWords(19, i))
+    end
+    for k, v in pairs(allWeatherCodes) do
+      printf("%s: %s / %s", v, getMainString(k), getSubString( k, 40, 'f'))
     end
 end
-
 
 --[[ GLOBAL SKIN FUNCTIONS ===================================================]]
 
@@ -172,11 +265,12 @@ end
 --[[ Run on Update - We need to update two different string meters on every tick,
   So we use a bang for both and do not return a value. ]]
 function Update()
-    -- get current temp
+    -- get current temp and conditions
     local temp = tonumber(tempStrMsr:GetStringValue())
+    local code = tonumber(tempCodeMsr:GetStringValue())
     -- WebParser will not have returned values for the first few update ticks
     if temp ~= nil then
-        setStringMeterText(mainMeter:GetName(), getMainString(temp))
-        setStringMeterText(subMeter:GetName(), getSubString(temp, UNIT))
+        setStringMeterText(mainMeter:GetName(), getMainString(code))
+        setStringMeterText(subMeter:GetName(), getSubString(code, temp, UNIT))
     end
 end
