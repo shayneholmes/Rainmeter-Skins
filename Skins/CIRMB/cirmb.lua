@@ -43,8 +43,6 @@ local ENCOURAGEMENT = {
     "you don't want to miss it",
     "you're no wuss",
     "cyclists gotta cycle",
-    "this is the perfect chance to harden up",
-    "this is when the tough gets going",
 }
 -- all weather codes
 -- from https://developer.yahoo.com/weather/documentation.html#codes
@@ -213,7 +211,7 @@ end
 --[[ Given the current temperature, return the appropriate
   string for the main string meter ]]
 local function getMainString( code )
-    local negation = dangerousWeather[code] == nil and "can" or "shouldn't"
+    local negation = dangerousWeather[code] == nil and "should" or "shouldn't"
     return string.format("You %s ride your bike", negation)
 end
 
@@ -221,8 +219,8 @@ end
   for the secondary string meter ]]
 local function getSubString( code, temp, unit )
     local substring = dangerousWeather[code] == nil
-      and string.format("It's %s outside%s", getTempWords(code, temp, unit), getEncouragement(temp, unit))
-      or dangerousWeather[code] .. ", be careful out there"
+      and string.format("It's %s out%s", getTempWords(code, temp, unit), getEncouragement(temp, unit))
+      or dangerousWeather[code] .. ", so be careful"
     return substring
 end
 
