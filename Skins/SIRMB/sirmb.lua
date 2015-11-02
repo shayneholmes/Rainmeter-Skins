@@ -230,7 +230,7 @@ local function setStringMeterText( meterName, text )
 end
 
 --[[ Log the descriptor which is returned for various temperatures ]]
-local function test()
+function test()
     for i = -20, 100, 5 do
         printf("t=%d, s=%s", i, getTempWords(19, i))
     end
