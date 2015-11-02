@@ -37,11 +37,16 @@ local TEMP_DESCRIPTORS = {
 -- words of encouragement for adverse weather
 local ENCOURAGEMENT_ADVERSE = {
     "and you're no wuss",
+    "and cyclists gotta cycle",
+    "and this is the perfect chance to harden up",
+    "and this is when the tough gets going",
 }
 -- words of encouragement for nice weather
 local ENCOURAGEMENT_AGREEABLE = {
     "so get out there",
     "and you need the exercise",
+    "and that bike won't ride itself",
+    "and you don't want to miss it",
 }
 
 -- measure handles
@@ -114,7 +119,7 @@ end
   return a message of encouragement to tack on ]]
 local function getEncouragement( temp, unit )
     local agreeable = (temp > COOL_LIMIT) and (temp < WARM_LIMIT)
-    local text = ", " .. (agreeable and ENCOURAGEMENT_AGREEABLE[1] or ENCOURAGEMENT_ADVERSE[1])
+    local text = ", " .. (agreeable and ENCOURAGEMENT_AGREEABLE[math.random(#ENCOURAGEMENT_AGREEABLE)] or ENCOURAGEMENT_ADVERSE[math.random(#ENCOURAGEMENT_ADVERSE)])
     return text
 end
 
