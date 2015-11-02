@@ -106,7 +106,7 @@ end
 local function getMainString( temp )
     local negation = (temp > JACKET_LIMIT) and " don't" or ""
     local outerwear = (temp < COAT_LIMIT) and "coat" or "jacket"
-    return string.format("You%s need a %s", negation, outerwear)
+    return string.format("You can ride your bike")
 end
 
 --[[ Given the current temperature and its unit, return the appropriate string
