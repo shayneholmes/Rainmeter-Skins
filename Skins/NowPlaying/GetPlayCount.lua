@@ -1,7 +1,7 @@
 function Initialize()
   filename=SELF:GetOption("FilePath")
   playcount=0
-  updatesPerRefresh=30 -- try twice, wait this number of updates
+  updatesPerRefresh=60 -- try twice, wait this number of updates
   updatesLeft=-1
 end
 
@@ -39,6 +39,7 @@ function ReadFile(FilePath)
 
 	-- READ FILE CONTENTS AND CLOSE.
 	local Contents = File:read('*all')
+  print("Got file: " .. Contents)
 	File:close()
 
 	return Contents
