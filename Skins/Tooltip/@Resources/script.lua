@@ -17,6 +17,7 @@ function AlignCircles()
   else
     SKIN:Bang('!SetOption', 'Message', 'Padding', "0,10,0,10")
   end
+
   SKIN:Bang('!UpdateMeter', 'Message') -- include new padding in measurements
     
   X = Message:GetX()
@@ -25,11 +26,18 @@ function AlignCircles()
   H = Message:GetH()
   LeftCircle:SetX(X)
   LeftCircle:SetY(Y+H/2)
-  RightCircle:SetX(X+W)
+  RightCircle:SetX(X+W-CircleRadius)
   RightCircle:SetY(Y+H/2)
+  RightCircle:SetW(CircleRadius*2)
   
   SKIN:Bang('!SetOption', 'LeftCircle', 'LineLength', CircleRadius)
   SKIN:Bang('!SetOption', 'RightCircle', 'LineLength', CircleRadius)
+  
+  X = tonumber(SKIN:GetVariable('PSCREENAREAX',0)) + tonumber(SKIN:GetVariable('PSCREENAREAWIDTH',0)) - W - CircleRadius*2 - 100
+  Y = tonumber(SKIN:GetVariable('PSCREENAREAY',0)) + tonumber(SKIN:GetVariable('PSCREENAREAHEIGHT',0)) - H - 100
+  
+  SKIN:Bang('!Redraw') -- update boundaries
+  SKIN:Bang('!Move', X, Y) -- move skin
 end
 
 function SetVariable(variablename, value)
