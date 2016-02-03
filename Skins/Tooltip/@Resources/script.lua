@@ -33,8 +33,13 @@ function AlignCircles()
   SKIN:Bang('!SetOption', 'LeftCircle', 'LineLength', CircleRadius)
   SKIN:Bang('!SetOption', 'RightCircle', 'LineLength', CircleRadius)
   
-  X = tonumber(SKIN:GetVariable('PWORKAREAX',0)) + tonumber(SKIN:GetVariable('PWORKAREAWIDTH',0)) - W - CircleRadius*2 - 50
-  Y = tonumber(SKIN:GetVariable('PWORKAREAY',0)) + tonumber(SKIN:GetVariable('PWORKAREAHEIGHT',0)) - H - 50
+  if (SKIN:GetVariable('Alignment',"") == "Screen") then
+    X = tonumber(SKIN:GetVariable('PWORKAREAX',0)) + tonumber(SKIN:GetVariable('PWORKAREAWIDTH',0)) - W - CircleRadius*2 - 50
+    Y = tonumber(SKIN:GetVariable('PWORKAREAY',0)) + tonumber(SKIN:GetVariable('PWORKAREAHEIGHT',0)) - H - 20
+  else
+    X = tonumber(SKIN:GetVariable('AlignmentX',0)) - W/2
+    Y = tonumber(SKIN:GetVariable('AlignmentY',0)) - H/2
+  end
   
   SKIN:Bang('!Redraw') -- update boundaries
   SKIN:Bang('!Move', X, Y) -- move skin
