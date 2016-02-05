@@ -3,6 +3,7 @@ function Initialize()
   LeftCircle=SKIN:GetMeter('LeftCircle')
   RightCircle=SKIN:GetMeter('RightCircle')
   Message=SKIN:GetMeter('Message')
+  SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 3 0')
 end
 
 function Update()
