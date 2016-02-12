@@ -1,21 +1,21 @@
 function Initialize()
   MeasureTime = SKIN:GetMeasure('MeasureTime')
-  CheckTimePollingInterval = 5 -- in seconds
-  ResyncTime = true -- for first run
 end
 
 function Update()
-  local CurrentClock = os.clock()
-  if ResyncTime then
+-- smooth out the system clock on the minute
+  CurrentClock = os.clock()
+  if not TimeOffset then
     TimeOffset = MeasureTime:GetValue() - CurrentClock
-    ResyncTime = false
   end
-  local SmoothTime = CurrentClock + TimeOffset
-  if (not LastCheck) or (SmoothTime > LastCheck + CheckTimePollingInterval) then
-    if (math.abs(SmoothTime - MeasureTime:GetValue()) > 1) then
-      ResyncTime = true
-    end
-    LastCheck = SmoothTime
+  if not alreadyRun then
+    alreadyRun = true
+    TimeOffset = TimeOffset + 1
+  end
+  SmoothTime = CurrentClock + TimeOffset
+  SKIN:Bang("!SetVariable", "debugOffset", MeasureTime:GetValue() - SmoothTime)
+  if SmoothTime % 60 >= 59 then -- top of the minute; resync
+    TimeOffset = false
   end
   return SmoothTime
 end
