@@ -1,18 +1,21 @@
 function Initialize()
   MeasureTime = SKIN:GetMeasure('MeasureTime')
+  CheckTimePollingInterval = 5 -- in seconds
+  ResyncTime = true -- for first run
 end
 
 function Update()
-  if not TimeOffset then
-    TimeOffset = MeasureTime:GetValue() - os.clock()
+  local CurrentClock = os.clock()
+  if ResyncTime then
+    TimeOffset = MeasureTime:GetValue() - CurrentClock
+    ResyncTime = false
   end
-  local TimeValue = os.clock() + TimeOffset
-  local OffBy = TimeValue-MeasureTime:GetValue()
-  SKIN:Bang('!SetVariable', 'DebugOffset', OffBy)
-  if math.abs(OffBy) >= 1 then
-    SKIN:Bang('!SetOption', 'MeterClockBackground', 'LineColor', '255,0,0,255')
-    SKIN:Bang('!UpdateMeter', 'MeterClockBackground')
+  local SmoothTime = CurrentClock + TimeOffset
+  if (not LastCheck) or (SmoothTime > LastCheck + CheckTimePollingInterval) then
+    if (math.abs(SmoothTime - MeasureTime:GetValue()) > 1) then
+      ResyncTime = true
+    end
+    LastCheck = SmoothTime
   end
-  
-  return TimeValue
+  return SmoothTime
 end
