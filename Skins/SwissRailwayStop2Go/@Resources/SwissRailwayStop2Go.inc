@@ -24,14 +24,14 @@ GainRatio=0.025641
 MinuteHandMotionDuration = 0.1
 
 ;--------------
+; CONSTANTS (don't need to edit these)
+NumberOfHourMarkers=12
+NumberOfMinuteMarkers=60
+
+;--------------
 ; AUTO-COMPUTED VARIABLES (please don't edit)
 ClockRadius=(#ClockDiameter#/2)
 ClockEdgeWidth=(#ClockDiameter#*0.020635)
-
-;--------------
-; CONSTANTS (please don't edit)
-NumberOfHourMarkers=12
-NumberOfMinuteMarkers=60
 
 SCRIPT=#@#scripts/
 INC=#@#includes/
