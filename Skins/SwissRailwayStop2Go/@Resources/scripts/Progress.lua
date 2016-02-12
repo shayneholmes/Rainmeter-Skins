@@ -1,10 +1,11 @@
+function Initialize()
+  MeasureTime = SKIN:GetMeasure('MeasureTime')
+end
+
 function Update()
-  -- smooth out the system clock
-  CurrentTime = os.time()
-  CurrentClock = os.clock()
-  if CurrentTime ~= LastTime then -- tick
-    LastTime = CurrentTime
-    TimeOffset = LastTime - CurrentClock
+  if not TimeOffset then
+    TimeOffset = MeasureTime:GetValue() - os.clock()
   end
-  return CurrentClock + TimeOffset
+  local TimeValue = os.clock() + TimeOffset
+  return TimeValue
 end
