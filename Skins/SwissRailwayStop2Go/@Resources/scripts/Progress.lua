@@ -5,8 +5,8 @@ end
 function Update()
 -- smooth out the system clock on the minute
   CurrentClock = os.clock() -- millisecond resolution but may not be stable for long
-  CurrentMinute = (os.time()+1)/60 -- this source has 1-second resolution but stable; sync up at :59 to make minute jumps tight
-  if (not TimeOffset or (LastMinute < CurrentMinute)) then
+  CurrentMinute = math.floor((os.time()+0.5)/60) -- this source has 1-second resolution but stable; sync up at :59.5 to make minute jumps tight
+  if (not TimeOffset or (LastMinute ~= CurrentMinute)) then
     TimeOffset = MeasureTime:GetValue() - CurrentClock
     LastMinute = CurrentMinute
   end
