@@ -1,7 +1,7 @@
 [Variables]
 ;--------------
 ; SIZING OPTIONS
-ClockDiameter=240
+ClockDiameter=200
 
 ;--------------
 ; COLOR OPTIONS
@@ -40,7 +40,7 @@ ContextTitle=Large size
 ContextTitle2=Medium size
 ContextTitle3=Small size
 ContextAction=[!WriteKeyValue Variables ClockDiameter 640 "#@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction2=[!WriteKeyValue Variables ClockDiameter 240 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction2=[!WriteKeyValue Variables ClockDiameter 200 "#@#SwissRailwayStop2Go.inc][!Refresh]
 ContextAction3=[!WriteKeyValue Variables ClockDiameter 140 "#@#SwissRailwayStop2Go.inc][!Refresh]
 
 ; MEASURES
