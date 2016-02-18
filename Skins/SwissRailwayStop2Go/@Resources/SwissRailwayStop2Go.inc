@@ -1,10 +1,7 @@
-[Rainmeter]
-Update=20
-
 [Variables]
 ;--------------
 ; SIZING OPTIONS
-ClockDiameter=200
+ClockDiameter=240
 
 ;--------------
 ; COLOR OPTIONS
@@ -35,6 +32,16 @@ ClockEdgeWidth=(#ClockDiameter#*0.020635)
 
 SCRIPT=#@#scripts/
 INC=#@#includes/
+
+[Rainmeter]
+Update=20
+
+ContextTitle=Large size
+ContextTitle2=Medium size
+ContextTitle3=Small size
+ContextAction=[!WriteKeyValue Variables ClockDiameter 640 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction2=[!WriteKeyValue Variables ClockDiameter 240 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction3=[!WriteKeyValue Variables ClockDiameter 140 "#@#SwissRailwayStop2Go.inc][!Refresh]
 
 ; MEASURES
 [MeasureTime]
