@@ -1,11 +1,15 @@
 [Variables]
 ;--------------
-; SIZING OPTIONS
+; DEFAULT SIZING OPTIONS
 SkinSize=200
 ClockBezelExists=1
 
 ;--------------
-; COLOR OPTIONS
+; CUSTOMIZED SIZING OPTIONS
+@Include=#@#Settings.inc
+
+;--------------
+; DEFAULT COLOR OPTIONS
 ClockBackgroundColor=0,0,0,255
 ClockElementsColor=255,255,255,255
 BevelColor=128,128,128,255
@@ -49,9 +53,9 @@ Update=20
 ContextTitle=Bigger size
 ContextTitle2=Smaller size
 ContextTitle3=Toggle bezel
-ContextAction=[!WriteKeyValue Variables SkinSize "(#SkinSize#=120?200:640)" #@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction2=[!WriteKeyValue Variables SkinSize "(#SkinSize#=640?200:120)" #@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction3=[!WriteKeyValue Variables ClockBezelExists "(#ClockBezelExists#?0:1)" #@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction=[!WriteKeyValue Variables SkinSize "(#SkinSize#=120?200:640)" #@#Settings.inc][!Refresh]
+ContextAction2=[!WriteKeyValue Variables SkinSize "(#SkinSize#=640?200:120)" #@#Settings.inc][!Refresh]
+ContextAction3=[!WriteKeyValue Variables ClockBezelExists "(#ClockBezelExists#?0:1)" #@#Settings.inc][!Refresh]
 
 ; MEASURES
 [MeasureTime]
