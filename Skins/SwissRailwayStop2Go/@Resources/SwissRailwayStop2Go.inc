@@ -7,6 +7,7 @@ SkinSize=200
 ; COLOR OPTIONS
 ClockBackgroundColor=0,0,0,255
 ClockElementsColor=255,255,255,255
+BevelColor=128,128,128,255
 
 SecondHandColor=205,29,29,255
 
@@ -61,6 +62,13 @@ Formula=1
 UpdateDivider=-1
 
 ; STYLES
+
+[styleCircle]
+H=(#SkinSize#)
+W=(#SkinSize#)
+UpdateDivider=-1
+Solid=1
+AntiAlias=1
 
 [styleMarker]
 LineColor=#ClockElementsColor#
@@ -124,13 +132,9 @@ LineColor=#SecondHandColor#
 [MeterClockBackground]
 Meter=Roundline
 LineColor=#ClockBackgroundColor#
-H=(#SkinSize#)
-W=(#SkinSize#)
-UpdateDivider=-1
 LineStart=0
 LineLength=(#ClockRadius#)
-Solid=1
-AntiAlias=1
+MeterStyle=styleCircle
 
 [MinuteMarkers]
 Measure=Script
@@ -225,6 +229,13 @@ LineLength=(#ClockDiameter#*0.004762)
 LineColor=128,128,128,255
 DynamicVariables=1
 UpdateDivider=-1
+
+[MeterBezel]
+Meter=Roundline
+MeterStyle=styleCircle
+LineLength=(#SkinSize#/2)
+LineStart=#ClockRadius#
+LineColor=#BevelColor#
 
 ; Helper script to always refresh skin twice instead of once
 ; This is so that it loads the updated .inc files
