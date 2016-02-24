@@ -2,6 +2,7 @@
 ;--------------
 ; SIZING OPTIONS
 SkinSize=200
+ClockBezelExists=1
 
 ;--------------
 ; COLOR OPTIONS
@@ -28,7 +29,7 @@ NumberOfMinuteMarkers=60
 
 ;--------------
 ; AUTO-COMPUTED VARIABLES (please don't edit)
-ClockBezelWidth=(#SkinSize#*0.020635)
+ClockBezelWidth=(#ClockBezelExists#?#SkinSize#*0.02:0)
 ClockPadding=(#ClockBezelWidth#)
 ClockDiameter=(#SkinSize#-#ClockPadding#*2)
 
@@ -41,12 +42,12 @@ INC=#@#includes/
 [Rainmeter]
 Update=20
 
-ContextTitle=Large size
-ContextTitle2=Medium size
-ContextTitle3=Small size
-ContextAction=[!WriteKeyValue Variables SkinSize 640 "#@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction2=[!WriteKeyValue Variables SkinSize 200 "#@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction3=[!WriteKeyValue Variables SkinSize 140 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextTitle=Bigger size
+ContextTitle2=Smaller size
+ContextTitle3=Toggle bezel
+ContextAction=[!WriteKeyValue Variables SkinSize "(#SkinSize#=120?200:640)" #@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction2=[!WriteKeyValue Variables SkinSize "(#SkinSize#=640?200:120)" #@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction3=[!WriteKeyValue Variables ClockBezelExists "(#ClockBezelExists#?0:1)" #@#SwissRailwayStop2Go.inc][!Refresh]
 
 ; MEASURES
 [MeasureTime]
@@ -235,6 +236,7 @@ Meter=Roundline
 MeterStyle=styleCircle
 LineLength=(#SkinSize#/2)
 LineStart=#ClockRadius#
+Hidden=(#ClockBezelExists#?0:1)
 LineColor=#BevelColor#
 
 ; Helper script to always refresh skin twice instead of once
