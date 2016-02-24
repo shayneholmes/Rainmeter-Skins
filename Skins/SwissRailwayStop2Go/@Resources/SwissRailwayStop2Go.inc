@@ -31,13 +31,15 @@ MinuteHandMotionDuration = 0.1
 NumberOfHourMarkers=12
 NumberOfMinuteMarkers=60
 
-HandWidth=(#ClockDiameter#*0.038)
-HourHandLength=(#ClockDiameter#*0.27)
-MinuteHandLength=(#ClockDiameter#*0.43)
-HandBacksideLength=(-#ClockDiameter#*0.14)
+; Ensure whole-numbers (sometimes even) to address antialiasing woes
+HandWidth=(floor(#ClockDiameter#*0.038))
+HourHandLength=(floor(#ClockDiameter#*0.27))
+MinuteHandLength=(floor(#ClockDiameter#*0.43))
+HandBacksideLength=(floor(-#ClockDiameter#*0.14))
+
 ;--------------
 ; AUTO-COMPUTED VARIABLES (please don't edit)
-ClockBezelWidth=(#ClockBezelExists#?#SkinSize#*0.025:0)
+ClockBezelWidth=(floor(#ClockBezelExists#?#SkinSize#*0.025:0))
 ClockPadding=(#ClockBezelWidth#)
 ClockDiameter=(#SkinSize#-#ClockPadding#*2)
 
@@ -60,6 +62,9 @@ ContextAction3=[!WriteKeyValue Variables ClockBezelExists "(#ClockBezelExists#?0
 ; MEASURES
 [MeasureTime]
 Measure=Time
+; Values for debugging
+Measure=Calc
+Formula=900
 
 [MeasureSmoothTime]
 Measure=SCRIPT
@@ -91,7 +96,7 @@ AntiAlias=1
 UpdateDivider=-1
 
 [styleMarkerMinute]
-LineStart=#MinuteHandLength#
+LineStart=(#MinuteHandLength#-1)
 LineWidth=(#ClockDiameter#*0.010417)
 
 [styleMarkerHour]
@@ -243,7 +248,7 @@ UpdateDivider=-1
 Meter=Roundline
 MeterStyle=styleCircle
 LineLength=(#SkinSize#/2)
-LineStart=#ClockRadius#
+LineStart=(#SkinSize#/2-#ClockBezelWidth#)
 Hidden=(#ClockBezelExists#?0:1)
 LineColor=#BevelColor#
 
