@@ -27,14 +27,18 @@ MinuteHandMotionDuration = 0.1
 NumberOfHourMarkers=12
 NumberOfMinuteMarkers=60
 
+HandWidth=(#ClockDiameter#*0.038)
+HourHandLength=(#ClockDiameter#*0.27)
+MinuteHandLength=(#ClockDiameter#*0.43)
+HandBacksideLength=(-#ClockDiameter#*0.14)
 ;--------------
 ; AUTO-COMPUTED VARIABLES (please don't edit)
-ClockBezelWidth=(#ClockBezelExists#?#SkinSize#*0.02:0)
+ClockBezelWidth=(#ClockBezelExists#?#SkinSize#*0.025:0)
 ClockPadding=(#ClockBezelWidth#)
 ClockDiameter=(#SkinSize#-#ClockPadding#*2)
 
 ClockRadius=(#ClockDiameter#/2)
-ClockEdgeWidth=(#ClockDiameter#*0.020635)
+ClockEdgeWidth=(#ClockDiameter#*0.025)
 
 SCRIPT=#@#scripts/
 INC=#@#includes/
@@ -83,12 +87,12 @@ AntiAlias=1
 UpdateDivider=-1
 
 [styleMarkerMinute]
-LineStart=(#ClockRadius#-#ClockEdgeWidth#-#ClockDiameter#*0.047619)
-LineWidth=(0.009524*#ClockDiameter#)
+LineStart=#MinuteHandLength#
+LineWidth=(#ClockDiameter#*0.010417)
 
 [styleMarkerHour]
-LineStart=(#ClockRadius#-#ClockEdgeWidth#-#ClockDiameter#*0.111111)
-LineWidth=(0.039683*#ClockDiameter#)
+LineStart=(#ClockDiameter#*0.366667)
+LineWidth=#HandWidth#
 
 [styleHand]
 LineColor=#ClockElementsColor#
@@ -102,24 +106,24 @@ Solid=0
 AntiAlias=1
 
 [styleHourHand]
-LineLength=(#ClockDiameter#*0.271429)
-LineStart=(-#ClockDiameter#*0.138095)
-LineWidth=(#ClockDiameter#*0.038095)
+LineLength=#HourHandLength#
+LineStart=#HandBacksideLength#
+LineWidth=#HandWidth#
 
 [styleMinuteHand]
-LineLength=(#ClockDiameter#*0.436508)
-LineStart=(-#ClockDiameter#*0.139683)
-LineWidth=(#ClockDiameter#*0.038095)
+LineLength=#MinuteHandLength#
+LineStart=#HandBacksideLength#
+LineWidth=#HandWidth#
 
 [styleSecondHand]
-LineLength=(#ClockDiameter#*0.350794)
-LineStart=(-#ClockDiameter#*0.125397)
-LineWidth=(#ClockDiameter#*0.013651)
+LineLength=(#ClockDiameter#*0.35)
+LineStart=(-#ClockDiameter#*0.125)
+LineWidth=(#ClockDiameter#*0.013)
 LineColor=#SecondHandColor#
 
 [styleSecondHandBall]
 Solid=1
-LineLength=(#ClockDiameter#*0.037302)
+LineLength=(#ClockDiameter#*0.037)
 LineColor=#SecondHandColor#
 
 ;----------------------------------------------
@@ -218,7 +222,7 @@ DynamicVariables=1
 Meter=Roundline
 MeterStyle=styleHand|styleSecondHandBall
 MeasureName=MeasureOne
-LineLength=(#ClockDiameter#*0.017460)
+LineLength=(#ClockDiameter#*0.017)
 DynamicVariables=1
 UpdateDivider=-1
 
@@ -226,7 +230,7 @@ UpdateDivider=-1
 Meter=Roundline
 MeterStyle=styleHand|styleSecondHandBall
 MeasureName=MeasureOne
-LineLength=(#ClockDiameter#*0.004762)
+LineLength=(#ClockDiameter#*0.0048)
 LineColor=128,128,128,255
 DynamicVariables=1
 UpdateDivider=-1
