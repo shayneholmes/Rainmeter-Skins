@@ -1,7 +1,7 @@
 [Variables]
 ;--------------
 ; SIZING OPTIONS
-ClockDiameter=200
+SkinSize=200
 
 ;--------------
 ; COLOR OPTIONS
@@ -27,6 +27,10 @@ NumberOfMinuteMarkers=60
 
 ;--------------
 ; AUTO-COMPUTED VARIABLES (please don't edit)
+ClockBezelWidth=(#SkinSize#*0.020635)
+ClockPadding=(#ClockBezelWidth#)
+ClockDiameter=(#SkinSize#-#ClockPadding#*2)
+
 ClockRadius=(#ClockDiameter#/2)
 ClockEdgeWidth=(#ClockDiameter#*0.020635)
 
@@ -39,9 +43,9 @@ Update=20
 ContextTitle=Large size
 ContextTitle2=Medium size
 ContextTitle3=Small size
-ContextAction=[!WriteKeyValue Variables ClockDiameter 640 "#@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction2=[!WriteKeyValue Variables ClockDiameter 200 "#@#SwissRailwayStop2Go.inc][!Refresh]
-ContextAction3=[!WriteKeyValue Variables ClockDiameter 140 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction=[!WriteKeyValue Variables SkinSize 640 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction2=[!WriteKeyValue Variables SkinSize 200 "#@#SwissRailwayStop2Go.inc][!Refresh]
+ContextAction3=[!WriteKeyValue Variables SkinSize 140 "#@#SwissRailwayStop2Go.inc][!Refresh]
 
 ; MEASURES
 [MeasureTime]
@@ -81,7 +85,8 @@ LineWidth=(0.039683*#ClockDiameter#)
 LineColor=#ClockElementsColor#
 H=(#ClockDiameter#)
 W=(#ClockDiameter#)
-X=0
+X=#ClockPadding#
+Y=#ClockPadding#
 LineLength=(#ClockRadius#-#ClockEdgeWidth#)
 StartAngle=(3/2*PI)
 Solid=0
@@ -119,8 +124,8 @@ LineColor=#SecondHandColor#
 [MeterClockBackground]
 Meter=Roundline
 LineColor=#ClockBackgroundColor#
-H=(#ClockDiameter#)
-W=(#ClockDiameter#)
+H=(#SkinSize#)
+W=(#SkinSize#)
 UpdateDivider=-1
 LineStart=0
 LineLength=(#ClockRadius#)
@@ -138,7 +143,7 @@ Value0=Roundline
 Option1=MeterStyle
 Value1=styleMarker|styleMarkerMinute
 Option2=TransformationMatrix
-Value2={cos(2*PI/#NumberOfMinuteMarkers#*%%)};{-sin(2*PI/#NumberOfMinuteMarkers#*%%)};{sin(2*PI/#NumberOfMinuteMarkers#*%%)};{cos(2*PI/#NumberOfMinuteMarkers#*%%)};{(1-sin(2*PI/#NumberOfMinuteMarkers#*%%))*#ClockRadius#};{(1-cos(2*PI/#NumberOfMinuteMarkers#*%%))*#ClockRadius#}
+Value2={cos(2*PI/#NumberOfMinuteMarkers#*%%)};{-sin(2*PI/#NumberOfMinuteMarkers#*%%)};{sin(2*PI/#NumberOfMinuteMarkers#*%%)};{cos(2*PI/#NumberOfMinuteMarkers#*%%)};{(1-sin(2*PI/#NumberOfMinuteMarkers#*%%))*#ClockRadius#+#ClockPadding#};{(1-cos(2*PI/#NumberOfMinuteMarkers#*%%))*#ClockRadius#+#ClockPadding#}
 UpdateDivider=-1
 @Include=#INC#MinuteMarkers.inc
 
@@ -153,7 +158,7 @@ Value0=Roundline
 Option1=MeterStyle
 Value1=styleMarker|styleMarkerHour
 Option2=TransformationMatrix
-Value2={cos(2*PI/#NumberOfHourMarkers#*%%)};{-sin(2*PI/#NumberOfHourMarkers#*%%)};{sin(2*PI/#NumberOfHourMarkers#*%%)};{cos(2*PI/#NumberOfHourMarkers#*%%)};{(1-sin(2*PI/#NumberOfHourMarkers#*%%))*#ClockRadius#};{(1-cos(2*PI/#NumberOfHourMarkers#*%%))*#ClockRadius#}
+Value2={cos(2*PI/#NumberOfHourMarkers#*%%)};{-sin(2*PI/#NumberOfHourMarkers#*%%)};{sin(2*PI/#NumberOfHourMarkers#*%%)};{cos(2*PI/#NumberOfHourMarkers#*%%)};{(1-sin(2*PI/#NumberOfHourMarkers#*%%))*#ClockRadius#+#ClockPadding#};{(1-cos(2*PI/#NumberOfHourMarkers#*%%))*#ClockRadius#+#ClockPadding#}
 UpdateDivider=-1
 @Include=#INC#HourMarkers.inc
 
