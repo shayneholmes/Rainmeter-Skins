@@ -62,9 +62,6 @@ ContextAction3=[!WriteKeyValue Variables ClockBezelExists "(#ClockBezelExists#?0
 ; MEASURES
 [MeasureTime]
 Measure=Time
-; Values for debugging
-Measure=Calc
-Formula=900
 
 [MeasureSmoothTime]
 Measure=SCRIPT
