@@ -81,19 +81,17 @@ Group=Meter|Value|ShowHide
   local file = io.open(SKIN:MakePathAbsolute(SELF:GetOption("IncFile")), "w")
 	file:write(outputText)
 	file:close()
+  
+  RunWmicMeasures()
 end
 
-function Update()
-  -- Only runs once since we have UpdateDivider set to -1
-  -- Run the WMIC commands (if any)
-  if not hasRun then
-    hasRun = 1
-    s = ""
-    for k, v in pairs(dependenciesNeedingActivation) do
-      s = s .. "[!CommandMeasure Measure" .. v .. [=[ "Run"]]=]
-    end
-    SKIN:Bang(s)
+function RunWmicMeasures()
+  s = ""
+  for k, v in pairs(dependenciesNeedingActivation) do
+    s = s .. "[!CommandMeasure Measure" .. v .. [=[ "Run"]]=]
   end
+  s = s .. "[!UpdateMeasureGroup MeasureWmic]"
+  SKIN:Bang(s)
 end
 
 -- does all the substitution!
@@ -177,7 +175,7 @@ Measure=Plugin
 Plugin=RunCommand
 OutputType=ANSI
 Parameter=%2
-FinishAction=[!UpdateMeasureGroup Measure%1][!UpdateMeterGroup Meter]
+FinishAction=[!UpdateMeasureGroup Measure%1]
 Group=MeasureWmic
 ]===]
   local measureTemplate = [===[
@@ -191,6 +189,7 @@ Format=%3
 Group=Measure%2
 MaxRows=%4
 Substitute="":"-"
+OnUpdateAction=[!UpdateMeterGroup Meter]
 ]===]
   
   wht(wmicTemplate, "WmicCPU", [[""wmic cpu list brief /format:list""]])
@@ -207,11 +206,11 @@ Substitute="":"-"
   wht(wmicTemplate, "WmicNic", [[""wmic nic where "MACAddress>0" list brief /format:list""]])
 
   wt(measureTemplate, "MACAddress",   "WmicNic", "[MACAddress]", 1)
-  wt(measureTemplate, "Network Card", "WmicNic", "[Name]", 1)
+  wt(measureTemplate, "NetworkCard", "WmicNic", "[Name]", 1)
 
   wht(wmicTemplate, "WmicNicSpeed", [[""wmic nic where "Speed>0" list brief /format:list""]])
 
-  wt(measureTemplate, "Network Speed", "WmicNicSpeed", "[s:Speed]/s", 1)
+  wt(measureTemplate, "NetworkSpeed", "WmicNicSpeed", "[s:Speed]/s", 1)
 end
 
 -- wht - wmic host template
