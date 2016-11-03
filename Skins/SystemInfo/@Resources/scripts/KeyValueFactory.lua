@@ -189,9 +189,8 @@ Format=%3
 Group=Measure%2
 MaxRows=%4
 Substitute="":"-"
-OnUpdateAction=[!UpdateMeterGroup Meter]
+OnUpdateAction=[!UpdateMeterGroup Meter][!UpdateMeterGroup ResizeDependent][!Redraw]
 ]===]
-  
   wht(wmicTemplate, "WmicCPU", [[""wmic cpu list brief /format:list""]])
 
   wt(measureTemplate, "CPU", "WmicCPU", "[Name]")
