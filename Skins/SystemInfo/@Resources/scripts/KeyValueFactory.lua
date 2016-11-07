@@ -233,15 +233,13 @@ Substitute="":"-"
 end
 
 -- wht - wmic host template
-function wht(...)
-  template, name = ...
-  template = st(...)
+function wht(template, name, ...)
+  template = st(template, name, ...)
   dependencyTemplates[name] = template
 end
 
 -- wt - wmic template
-function wt(...)
-  template, name, wmicMeasure, fmt, maxRows = ...
+function wt(template, name, wmicMeasure, fmt, maxRows)
   dependencies[name] = wmicMeasure
   if not maxRows then
     maxRows = 0
