@@ -19,27 +19,6 @@ function Initialize()
   ClockLastTick = ClockThisTick
   ResetInterval = SELF:GetNumberOption('ResetInterval', 2) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
 
-  ActiveColorValue = 255
-  InactiveColorValue = 96
-  ActiveColor = ActiveColorValue .. "," .. ActiveColorValue .. "," .. ActiveColorValue
-  InactiveColor = InactiveColorValue .. "," .. InactiveColorValue .. "," .. InactiveColorValue
-
-  NumberOfSegments = SKIN:ParseFormula(SKIN:GetVariable('NumberOfSegments'))
-  ColorField = SELF:GetOption("ColorField", "SolidColor")
-  ObjectsToUpdate = {}
-  local opt = SELF:GetOption("SegmentGroup")
-  if opt ~= "" then -- fetch more groups
-    j = 1
-    while true do
-      if opt == "" then break end
-      table.insert(ObjectsToUpdate, opt)
-      j = j + 1
-      opt = SELF:GetOption("SegmentGroup" .. j)
-    end
-  end
-  ShadeSegmentsGradually = tonumber(SELF:GetOption("ShadeSegmentsGradually", 0))
-  LastMeterSet = 0
-
   Debug = SELF:GetOption("Debug",0)
 end
 
