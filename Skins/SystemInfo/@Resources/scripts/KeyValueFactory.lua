@@ -112,6 +112,7 @@ end
 -- read available system info measures from the include file
 function populateSystemInfoMeasures()
   populateSystemInfoMeasuresFromFile()
+  populateEnvironmentMeasures()
   populateRegistryMeasures()
   populateSysInfoMeasures()
   populateWmicMeasures()
@@ -149,6 +150,19 @@ Substitute="":"-"
 
   at(measureTemplate, "WindowsEdition", "HKEY_LOCAL_MACHINE", [[Software\Microsoft\Windows NT\CurrentVersion]], "EditionID")
   at(measureTemplate, "WindowsBuild", "HKEY_LOCAL_MACHINE", [[Software\Microsoft\Windows NT\CurrentVersion]], "BuildLab")
+end
+
+function populateEnvironmentMeasures()
+  local measureTemplate = [===[
+[Measure%1]
+Measure=String
+String=%%2%
+UpdateDivider=-1
+Substitute="":"-"
+]===]
+
+  at(measureTemplate, "LogonServer", "LOGONSERVER")
+  at(measureTemplate, "LogonDomain", "USERDOMAIN")
 end
 
 function populateSysInfoMeasures()
