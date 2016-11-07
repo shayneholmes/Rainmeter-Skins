@@ -44,13 +44,16 @@ function Initialize()
 end
 
 function Update()
-  local Duration = mDuration:GetValue()
-  local ActualPosition = mPosition:GetValue()
-  local State = mState:GetValue() == 1 and 1 or 0
+  -- the pattern "and X or Y" is a ternary operator (http://lua-users.org/wiki/ExpressionsTutorial)
+  
   local Stopped = mState:GetValue() == 0 and 1 or 0
   
-  ClockLastTick = ClockThisTick
-  ClockThisTick = os.clock()
+  if Stopped == 1 or Duration == 0 then -- stopped or no track
+    return 0
+  end
+
+  local Duration = mDuration:GetValue()
+  local ActualPosition = mPosition:GetValue()
   
   if LastDuration ~= Duration or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval then
     -- track change or skip
@@ -58,47 +61,24 @@ function Update()
     InterpolatedPosition = ActualPosition
   end 
   
-  if Stopped == 1 or Duration == 0 then -- stopped or no track
-    returnVal = 0
-  else
-    if State == 1 then -- playing
+  local State = mState:GetValue() == 1 and 1 or 0
+
+  if State == 1 then -- playing; recalculate
+    ClockLastTick = ClockThisTick
+    ClockThisTick = os.clock()
+    
+    if ClockLastTick ~= 0 then
       InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick)
     end
-    if Debug ~= 0 then
-      SKIN:Bang('!SetVariable', 'DebugOffset', math.floor((InterpolatedPosition - ActualPosition)*1000))
-    end
-    returnVal = math.min(InterpolatedPosition / Duration, 0.999)
+  else
+    ClockThisTick = 0
   end
-  if #ObjectsToUpdate > 0 then
-    SetColors(returnVal)
-  end
-  return returnVal
-  
-end
 
-function SetColors(Value) -- use InterpolatedPosition to set the right squares
-  local MeterToSet = math.floor(Value * NumberOfSegments - 0.0001)
-  local step = (MeterToSet >= LastMeterSet) and 1 or -1
-  local color = (MeterToSet >= LastMeterSet) and ActiveColor or InactiveColor
-  -- print("setting from " .. LastMeterSet .. " to " .. MeterToSet .. " to color " .. color)
-  for idx, name in pairs(ObjectsToUpdate) do
-    for i = LastMeterSet, MeterToSet, step do
-      if i >= 0 and i < NumberOfSegments then
-        SKIN:Bang('!SetOption', name .. i, ColorField, color)
-        SKIN:Bang('!UpdateMeter', name .. i)
-      end
-    end
+  if Debug ~= 0 then
+    SKIN:Bang('!SetVariable', 'DebugOffset', math.floor((InterpolatedPosition - ActualPosition)*1000))
   end
-  if ShadeSegmentsGradually > 0 then
-    IndividualPercent = Value * NumberOfSegments - MeterToSet -- just the fractional part left
-    IndividualColorValue = IndividualPercent * ActiveColorValue + (1 - IndividualPercent) * InactiveColorValue
-    IndividualColor = IndividualColorValue .. "," .. IndividualColorValue .. "," .. IndividualColorValue
-    for idx, name in pairs(ObjectsToUpdate) do
-      SKIN:Bang('!SetOption', name .. MeterToSet, ColorField, IndividualColor)
-      SKIN:Bang('!UpdateMeter', name .. MeterToSet)
-    end
-  end
-  LastMeterSet = MeterToSet
+
+  return math.min(InterpolatedPosition / Duration, 0.9999)
 end
 
 --based on http://nomnuggetnom.deviantart.com/art/Muziko-for-Rainmeter-314928622
