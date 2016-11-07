@@ -99,7 +99,6 @@ function RunWmicMeasures()
   for k, v in pairs(dependenciesNeedingActivation) do
     s = s .. "[!CommandMeasure Measure" .. v .. [=[ "Run"]]=]
   end
-  s = s .. "[!UpdateMeasureGroup MeasureWmic]"
   SKIN:Bang(s)
 end
 
@@ -198,7 +197,7 @@ Measure=Plugin
 Plugin=RunCommand
 OutputType=ANSI
 Parameter=%2
-FinishAction=[!UpdateMeasureGroup Measure%1]
+FinishAction=[!UpdateMeasureGroup Measure%1][!UpdateMeterGroup Meter][!UpdateMeterGroup ResizeDependent][!Redraw]
 Group=MeasureWmic
 ]===]
   local measureTemplate = [===[
@@ -212,7 +211,6 @@ Format=%3
 Group=Measure%2
 MaxRows=%4
 Substitute="":"-"
-OnUpdateAction=[!UpdateMeterGroup Meter][!UpdateMeterGroup ResizeDependent][!Redraw]
 ]===]
   wht(wmicTemplate, "WmicCPU", [[""wmic cpu list brief /format:list""]])
 
