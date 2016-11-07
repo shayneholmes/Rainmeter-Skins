@@ -197,7 +197,7 @@ Measure=Plugin
 Plugin=RunCommand
 OutputType=ANSI
 Parameter=%2
-FinishAction=[!UpdateMeasureGroup Measure%1][!UpdateMeterGroup Meter][!UpdateMeterGroup ResizeDependent][!Redraw]
+FinishAction=[!UpdateMeasureGroup Measure%1][!UpdateMeterGroup Value][!UpdateMeterGroup ResizeDependent][!Redraw]
 Group=MeasureWmic
 ]===]
   local measureTemplate = [===[
@@ -208,7 +208,6 @@ WmicMeasure=Measure%2
 Group=Measure%2
 UpdateDivider=-1
 Format=%3
-Group=Measure%2
 MaxRows=%4
 Substitute="":"-"
 ]===]
