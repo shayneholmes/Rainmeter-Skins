@@ -23,6 +23,7 @@ IfEqualAction=[!CommandMeasure MeasureAhkWindowMessaging "SendMessage 16687 2 0"
 Measure=Plugin
 Plugin=WindowMessagePlugin
 WindowClass=AutoHotkey
+UpdateDivider=-1
 
 [mPlayer]
 Measure=Plugin
