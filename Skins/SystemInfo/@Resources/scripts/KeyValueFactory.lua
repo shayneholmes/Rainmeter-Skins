@@ -82,7 +82,16 @@ Group=Meter|Value|ShowHide
 	file:write(outputText)
 	file:close()
   
-  RunWmicMeasures()
+end
+
+function Update()
+  if not hasRun then
+    local refreshed = tonumber(SKIN:GetMeasure("sRefresher"):GetOption("Refreshed", "0"))
+    if (refreshed > 0) then
+      hasRun = true
+      RunWmicMeasures()
+    end
+  end
 end
 
 function RunWmicMeasures()
