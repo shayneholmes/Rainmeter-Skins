@@ -7,8 +7,8 @@ function Initialize()
   wmicFormatString = SELF:GetOption("Format")
   maxRows = tonumber(SELF:GetOption("MaxRows", "NaN"))
   wmicMeasureName = SELF:GetOption("WmicMeasure")
-  if (wmicMeasureName == "MeasureWmicMemPhysical") then
-    debugVar = 1024
+  if (wmicMeasureName == "Pick a wmic measure to debug") then
+    debugVar = 1
   end
 end
 
