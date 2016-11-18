@@ -31,15 +31,13 @@ Plugin=NowPlaying.dll
 PlayerName=#player#
 PlayerType=TITLE
 PlayerPath=
-TrackChangeAction=[!UpdateMeasureGroup SporadicUpdate][!UpdateMeterGroup SporadicUpdate][!CommandMeasure MeasureAhkWindowMessaging "SendMessage 16687 2 0"][!Redraw]
+TrackChangeAction=[!UpdateMeterGroup SporadicUpdate][!CommandMeasure MeasureAhkWindowMessaging "SendMessage 16687 2 0"][!Redraw]
 
 [mArtist]
 Measure=Plugin
 Plugin=NowPlaying.dll
 PlayerName=[mPlayer]
 PlayerType=ARTIST
-Group=SporadicUpdate
-UpdateDivider=-1
 
 [mAlbum]
 Measure=Plugin
@@ -47,8 +45,6 @@ Plugin=NowPlaying.dll
 PlayerName=[mPlayer]
 PlayerType=ALBUM
 ; Substitute="":"Unknown"
-Group=SporadicUpdate
-UpdateDivider=-1
 
 [mPosition]
 Measure=Plugin
@@ -61,8 +57,6 @@ Measure=Plugin
 Plugin=NowPlaying.dll
 PlayerName=[mPlayer]
 PlayerType=DURATION
-Group=SporadicUpdate
-UpdateDivider=-1
 
 [mRating]
 Measure=Plugin
@@ -70,8 +64,6 @@ Plugin=NowPlaying.dll
 PlayerName=[mPlayer]
 PlayerType=RATING
 Substitute="0":"","1":" *","2":" **","3":" ***","4":" ****","5":" *****"
-Group=SporadicUpdate
-UpdateDivider=-1
 
 [mPlayCount]
 Measure=Calc
