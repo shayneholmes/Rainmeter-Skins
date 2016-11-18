@@ -15,6 +15,7 @@ PlayerName=#player#
 PlayerType=TITLE
 PlayerPath=
 ; Substitute="":"Unknown"
+TrackChangeAction=[!UpdateMeasureGroup UpdateOnTrackChange]
 
 [mPosition]
 Measure=Plugin
