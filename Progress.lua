@@ -1,0 +1,31 @@
+function Initialize()
+	ResetInterval = SELF:GetNumberOption('ResetInterval', 10)
+	SafetyRange = SELF:GetNumberOption('SafetyRange', 2)
+	mDuration = SKIN:GetMeasure('mDuration')
+	mPosition = SKIN:GetMeasure('mPosition')
+	mState = SKIN:GetMeasure('mStateButton')
+	UpdatePeriod = tonumber(SKIN:GetVariable('Update'))
+	Counter = -1
+	Fake = 0
+end
+
+function Update()
+	local Total = mDuration:GetValue()
+	local Real = mPosition:GetValue()
+	local State = mState:GetValue() == 1 and 1 or 0
+	local Stopped = mState:GetValue() == 0 and 1 or 0
+
+	Counter = (Counter + 1) % (ResetInterval * (1000/UpdatePeriod))
+
+	if Stopped == 1 then
+		return 0
+	elseif Counter == 0 or math.abs(Fake-Real)>SafetyRange then
+		Fake = Real
+	else
+		Fake = Fake + State * (UpdatePeriod/1000)
+	end
+
+	return Fake / Total
+end
+
+--by Kaelri (Kaelri@gmail.com)
