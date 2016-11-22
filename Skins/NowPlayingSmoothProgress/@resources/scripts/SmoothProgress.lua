@@ -23,8 +23,10 @@ function Initialize()
   end
   ShadeSegmentsGradually = tonumber(SELF:GetOption("ShadeSegmentsGradually", 0))
   LargestMeterFilled = -1
-  SetColors(1)
-  SetColors(0)
+  if #ObjectsToUpdate > 0 then
+    SetColors(1)
+    SetColors(0)
+  end
 end
 
 function Update()
