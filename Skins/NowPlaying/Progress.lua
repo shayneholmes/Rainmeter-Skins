@@ -29,3 +29,5 @@ function Update()
 
   return math.min(InterpolatedPosition / Duration, 1)
 end
+
+--based on original Progress.lua by Kaelri (Kaelri@gmail.com), modified by Monochromatope
