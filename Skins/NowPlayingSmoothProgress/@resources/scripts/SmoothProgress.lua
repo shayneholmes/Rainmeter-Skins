@@ -39,7 +39,7 @@ end
 
 function GetInterpolatedPosition()
   local PlaybackState = MeasureState:GetValue()
-  if PlaybackState == 0 then return 0 end-- playback stopped; we can stop here
+  if PlaybackState == 0 then return 0 end -- playback stopped; we can stop here
 
   local Duration = MeasureDuration:GetValue()
   if Duration == 0 then return 0 end -- playback stopped; we can stop here
