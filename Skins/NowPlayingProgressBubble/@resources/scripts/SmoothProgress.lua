@@ -1,7 +1,7 @@
 function Initialize()
-  mDuration = SKIN:GetMeasure('mDuration')
-  mPosition = SKIN:GetMeasure('mPosition')
-  mState = SKIN:GetMeasure('mStateButton')
+  mDuration = SKIN:GetMeasure('MeasureDuration')
+  mPosition = SKIN:GetMeasure('MeasurePosition')
+  mState    = SKIN:GetMeasure('MeasureStateButton')
   
   InterpolatedPosition = 0
   LastDuration = 0
