@@ -30,5 +30,5 @@ function Update()
     InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick)
   end
 
-  return math.min(InterpolatedPosition / Duration, 0.9999)
+  return math.min(InterpolatedPosition / Duration, 1)
 end
