@@ -1,23 +1,13 @@
--- @author Malody Hoe / GitHub: madhoe / Twitter: maddhoexD
--- Structure of Script Measure:
----- NumberOfSegments=
----- ColorField=
----- ShadeSegmentsGradually=
----- SegmentGroup=
----- SegmentGroupN=
----- where N is an ordered number from 2
-
 function Initialize()
   mDuration = SKIN:GetMeasure('mDuration')
   mPosition = SKIN:GetMeasure('mPosition')
-  mState = SKIN:GetMeasure('mStateButton')
   mState = SKIN:GetMeasure('mStateButton')
   
   InterpolatedPosition = 0
   LastDuration = 0
   ClockThisTick = os.clock()
   ClockLastTick = ClockThisTick
-  ResetInterval = SELF:GetNumberOption('ResetInterval', 2) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
+  ResetInterval = SELF:GetNumberOption('ResetInterval', 2)
 
   ActiveColorValue = 255
   InactiveColorValue = 96
@@ -46,9 +36,14 @@ end
 function Update()
   local Duration = mDuration:GetValue()
   local ActualPosition = mPosition:GetValue()
-  local State = mState:GetValue() == 1 and 1 or 0
   local Stopped = mState:GetValue() == 0 and 1 or 0
   
+  local PlaybackState = mState:GetValue()
+  
+  if PlaybackState == 0 then -- playback stopped; we can stop here
+    return 0
+  end
+
   ClockLastTick = ClockThisTick
   ClockThisTick = os.clock()
   
@@ -61,7 +56,7 @@ function Update()
   if Stopped == 1 or Duration == 0 then -- stopped or no track
     returnVal = 0
   else
-    if State == 1 then -- playing
+    if PlaybackState == 1 then -- playing
       InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick)
     end
     if Debug ~= 0 then
@@ -100,6 +95,3 @@ function SetColors(Value) -- use InterpolatedPosition to set the right squares
   end
   LastMeterSet = MeterToSet
 end
-
---based on http://nomnuggetnom.deviantart.com/art/Muziko-for-Rainmeter-314928622
---by Kaelri (Kaelri@gmail.com, http://kaelri.deviantart.com/)
