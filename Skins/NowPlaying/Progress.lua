@@ -1,64 +1,31 @@
--- @author Malody Hoe / GitHub: madhoe / Twitter: maddhoexD
--- Structure of Script Measure:
----- NumberOfSegments=
----- ColorField=
----- ShadeSegmentsGradually=
----- SegmentGroup=
----- SegmentGroupN=
----- where N is an ordered number from 2
-
 function Initialize()
-  mDuration = SKIN:GetMeasure('mDuration')
-  mPosition = SKIN:GetMeasure('mPosition')
-  mState = SKIN:GetMeasure('mStateButton')
-  mState = SKIN:GetMeasure('mStateButton')
-  
-  InterpolatedPosition = 0
-  LastDuration = 0
-  ClockThisTick = os.clock()
-  ClockLastTick = ClockThisTick
-  ResetInterval = SELF:GetNumberOption('ResetInterval', 2) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
-
-  Debug = SELF:GetOption("Debug",0)
+  MeasureDuration = SKIN:GetMeasure('mDuration')
+  MeasurePosition = SKIN:GetMeasure('mPosition')
+  MeasureState    = SKIN:GetMeasure('mStateButton')
+  ResetInterval   = SELF:GetNumberOption('ResetInterval', 2)
+  ClockThisTick   = os.clock()
 end
 
 function Update()
-  -- the pattern "and X or Y" is a ternary operator (http://lua-users.org/wiki/ExpressionsTutorial)
-  
-  local Stopped = mState:GetValue() == 0 and 1 or 0
-  
-  if Stopped == 1 or Duration == 0 then -- stopped or no track
-    return 0
-  end
+  local PlaybackState = MeasureState:GetValue()
+  if PlaybackState == 0 then return 0 end -- playback stopped; we can stop here
 
-  local Duration = mDuration:GetValue()
-  local ActualPosition = mPosition:GetValue()
+  local Duration = MeasureDuration:GetValue()
+  if Duration == 0 then return 0 end -- playback stopped; we can stop here
+
+  ClockLastTick = ClockThisTick
+  ClockThisTick = os.clock()
   
-  if LastDuration ~= Duration or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval then
-    -- track change or skip
+  local ActualPosition = MeasurePosition:GetValue()
+  
+  if LastDuration ~= Duration -- new track
+     or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval -- skip, or our counting is off
+     then -- reset our guess to the measured position
     LastDuration = Duration
     InterpolatedPosition = ActualPosition
-  end 
-  
-  local State = mState:GetValue() == 1 and 1 or 0
-
-  if State == 1 then -- playing; recalculate
-    ClockLastTick = ClockThisTick
-    ClockThisTick = os.clock()
-    
-    if ClockLastTick ~= 0 then
-      InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick)
-    end
-  else
-    ClockThisTick = 0
+  elseif PlaybackState == 1 then -- playing; increment
+    InterpolatedPosition = InterpolatedPosition + (ClockThisTick - ClockLastTick)
   end
 
-  if Debug ~= 0 then
-    SKIN:Bang('!SetVariable', 'DebugOffset', math.floor((InterpolatedPosition - ActualPosition)*1000))
-  end
-
-  return math.min(InterpolatedPosition / Duration, 0.9999)
+  return math.min(InterpolatedPosition / Duration, 1)
 end
-
---based on http://nomnuggetnom.deviantart.com/art/Muziko-for-Rainmeter-314928622
---by Kaelri (Kaelri@gmail.com, http://kaelri.deviantart.com/)
