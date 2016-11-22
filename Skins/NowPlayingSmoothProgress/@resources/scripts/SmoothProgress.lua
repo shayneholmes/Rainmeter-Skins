@@ -1,10 +1,10 @@
 function Initialize()
-  mDuration = SKIN:GetMeasure('mDuration')
-  mPosition = SKIN:GetMeasure('mPosition')
-  mState = SKIN:GetMeasure('mStateButton')
+  MeasureDuration = SKIN:GetMeasure('mDuration')
+  MeasurePosition = SKIN:GetMeasure('mPosition')
+  MeasureState    = SKIN:GetMeasure('mStateButton')
+  ResetInterval   = SELF:GetNumberOption('ResetInterval', 2)
+  ClockThisTick   = os.clock()
   
-  InterpolatedPosition = 0
-  LastDuration = 0
   ClockThisTick = os.clock()
   ClockLastTick = ClockThisTick
   ResetInterval = SELF:GetNumberOption('ResetInterval', 2)
@@ -34,11 +34,10 @@ function Initialize()
 end
 
 function Update()
-  local Duration = mDuration:GetValue()
-  local ActualPosition = mPosition:GetValue()
-  local Stopped = mState:GetValue() == 0 and 1 or 0
-  
-  local PlaybackState = mState:GetValue()
+  local Duration = MeasureDuration:GetValue()
+  local ActualPosition = MeasurePosition:GetValue()
+ 
+  local PlaybackState = MeasureState:GetValue()
   
   if PlaybackState == 0 then -- playback stopped; we can stop here
     return 0
