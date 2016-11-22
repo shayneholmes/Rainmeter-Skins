@@ -2,8 +2,8 @@ function Initialize()
   MeasureDuration = SKIN:GetMeasure('MeasureDuration')
   MeasurePosition = SKIN:GetMeasure('MeasurePosition')
   MeasureState    = SKIN:GetMeasure('MeasureStateButton')
-  ResetInterval = SELF:GetNumberOption('ResetInterval', 2) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
-  ClockThisTick = os.clock()
+  ResetInterval   = SELF:GetNumberOption('ResetInterval', 2) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
+  ClockThisTick   = os.clock()
 end
 
 function Update()
@@ -19,7 +19,7 @@ function Update()
   local Duration = MeasureDuration:GetValue()
   local ActualPosition = MeasurePosition:GetValue()
   
-  if LastDuration ~= Duration -- track change
+  if LastDuration ~= Duration -- new track
      or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval -- skip, or our counting is off
      then -- reset our guess to the measured position
     LastDuration = Duration
