@@ -8,15 +8,14 @@ end
 
 function Update()
   local PlaybackState = MeasureState:GetValue()
+  if PlaybackState == 0 then return 0 end-- playback stopped; we can stop here
 
-  if PlaybackState == 0 then -- playback stopped; we can stop here
-    return 0
-  end
+  local Duration = MeasureDuration:GetValue()
+  if Duration == 0 then return 0 end -- playback stopped; we can stop here
 
   ClockLastTick = ClockThisTick
   ClockThisTick = os.clock()
   
-  local Duration = MeasureDuration:GetValue()
   local ActualPosition = MeasurePosition:GetValue()
   
   if LastDuration ~= Duration -- new track
