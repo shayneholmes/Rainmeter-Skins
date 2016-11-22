@@ -4,7 +4,6 @@ function Initialize()
   MeasureState    = SKIN:GetMeasure('MeasureStateButton')
   ResetInterval = SELF:GetNumberOption('ResetInterval', 2) -- if the difference (in seconds) between intepolated and actual is higher than this, it will instantly reset
   ClockThisTick = os.clock()
-  InterpolatedPosition = 0
 end
 
 function Update()
@@ -16,15 +15,14 @@ function Update()
   if PlaybackState == 0 then -- playback stopped; we can stop here
     return 0
   end
-  
-  if Duration == nil then
-    GetTrackDuration()
-  end
 
+  local Duration = MeasureDuration:GetValue()
   local ActualPosition = MeasurePosition:GetValue()
   
-  if math.abs(InterpolatedPosition - ActualPosition) > ResetInterval -- skip, or our counting is off
+  if LastDuration ~= Duration -- track change
+     or math.abs(InterpolatedPosition - ActualPosition) > ResetInterval -- skip, or our counting is off
      then -- reset our guess to the measured position
+    LastDuration = Duration
     InterpolatedPosition = ActualPosition
   end 
   
@@ -33,8 +31,4 @@ function Update()
   end
 
   return math.min(InterpolatedPosition / Duration, 0.9999)
-end
-
-function GetTrackDuration()
-  Duration = MeasureDuration:GetValue()
 end
