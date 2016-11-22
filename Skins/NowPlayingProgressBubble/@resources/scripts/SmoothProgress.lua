@@ -7,7 +7,7 @@ function Initialize()
 end
 
 function Update()
-  PlaybackState = MeasureState:GetValue()
+  local PlaybackState = MeasureState:GetValue()
 
   if PlaybackState == 0 then -- playback stopped; we can stop here
     return 0
