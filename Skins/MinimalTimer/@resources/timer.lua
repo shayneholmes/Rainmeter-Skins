@@ -43,7 +43,27 @@ function StartTimerAPI(duration, color, active)
   StartTimerHelper(duration, color, active, 0)
 end
 
-function StartTimer(duration, color, active)
+function StartTimer(input, color, active)
+  if (string.find(input, ":") == nil) then
+    duration = input
+  else
+    index = string.find(input, ":")
+    hours = string.sub(input, 1, index - 1)
+    minutes = string.sub(input, index + 1)
+    print(hours)
+    print(minutes)
+    targettime = os.date("*t")
+    print(targettime["min"])
+    if (hours - targettime["hour"] < 0) then
+      hours = hours + 12
+    end
+    targettime["hour"] = hours
+    targettime["min"] = minutes
+    targettime["sec"] = 0
+    print(targettime["hour"] .. targettime["min"] .. targettime["sec"])
+    duration = (os.difftime(os.time(targettime), os.time()) / 60.0)
+    print(duration)
+  end
   StartTimerHelper(duration, color, active, 1)
   SKIN:Bang('!CommandMeasure', 'MeasureAhkWindowMessaging', 'SendMessage 16687 0 ' .. duration * 60)
 end
