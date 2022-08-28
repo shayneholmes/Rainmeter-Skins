@@ -67,11 +67,6 @@ Measure=Time
 Measure=SCRIPT
 ScriptFile=#SCRIPT#Progress.lua
 
-[MeasureOne]
-Measure=Calc
-Formula=1
-UpdateDivider=-1
-
 ; STYLES
 
 [styleCircle]
@@ -141,11 +136,10 @@ LineColor=#SecondHandColor#
 ; CLOCK background
 
 [MeterClockBackground]
-Meter=Roundline
-LineColor=#ClockBackgroundColor#
-LineStart=0
-LineLength=(#ClockRadius#)
-MeterStyle=styleCircle
+Meter=Shape
+Shape=Ellipse (#SkinSize#/2),(#SkinSize#/2),(#SkinSize#/2) | Fill Color #BevelColor# | StrokeWidth 0; bevel
+Shape2=Ellipse (#SkinSize#/2),(#SkinSize#/2),(#ClockRadius#) | Fill Color #ClockBackgroundColor# | StrokeWidth 0; bezel
+
 
 [MinuteMarkers]
 Measure=Script
@@ -220,14 +214,12 @@ MeasureName=MeasureSeconds
 [MeterSecondHandBall]
 Meter=Roundline
 MeterStyle=styleHand|styleSecondHandBall
-MeasureName=MeasureOne
 TransformationMatrix=1;0;0;1;(sin(2*PI*[MeasureSeconds])*#ClockDiameter#*0.313492);(-cos(2*PI*[MeasureSeconds])*#ClockDiameter#*0.313492)
 DynamicVariables=1
 
 [MeterSecondHandHub]
 Meter=Roundline
 MeterStyle=styleHand|styleSecondHandBall
-MeasureName=MeasureOne
 LineLength=(#ClockDiameter#*0.017)
 DynamicVariables=1
 UpdateDivider=-1
@@ -235,19 +227,10 @@ UpdateDivider=-1
 [MeterSpindle]
 Meter=Roundline
 MeterStyle=styleHand|styleSecondHandBall
-MeasureName=MeasureOne
 LineLength=(#ClockDiameter#*0.0048)
 LineColor=128,128,128,255
 DynamicVariables=1
 UpdateDivider=-1
-
-[MeterBezel]
-Meter=Roundline
-MeterStyle=styleCircle
-LineLength=(#SkinSize#/2)
-LineStart=(#SkinSize#/2-#ClockBezelWidth#)
-Hidden=(#ClockBezelExists#?0:1)
-LineColor=#BevelColor#
 
 ; Helper script to always refresh skin twice instead of once
 ; This is so that it loads the updated .inc files
